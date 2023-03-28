@@ -32,12 +32,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToMany(targetEntity: Content::class, mappedBy: 'likes')]
+    private Collection $likedContents;
+
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
 
     public function __construct()
     {
+        $this->likedContents = new ArrayCollection();
         $this->opinions = new ArrayCollection();
     }
 
@@ -136,6 +140,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($opinion->getAuthor() === $this) {
                 $opinion->setAuthor(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getLikedContents(): Collection
+    {
+        return $this->likedContents;
+    }
+
+    public function addContent(Content $content): self
+    {
+        if (!$this->likedContents->contains($content)) {
+            $this->likedContents[] = $content;
+            $content->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(Content $content): self
+    {
+        if ($this->likedContents->removeElement($content)) {
+            $content->removeLike($this);
         }
 
         return $this;
