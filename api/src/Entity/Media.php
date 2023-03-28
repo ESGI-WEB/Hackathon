@@ -29,6 +29,10 @@ class Media
     #[ORM\JoinColumn(nullable: false)]
     private ?Content $content = null;
 
+    #[ORM\ManyToOne(inversedBy: 'media')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeMedia $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +82,18 @@ class Media
     public function setContent(?Content $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getType(): ?TypeMedia
+    {
+        return $this->type;
+    }
+
+    public function setType(?TypeMedia $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

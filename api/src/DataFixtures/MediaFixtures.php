@@ -3,28 +3,30 @@
 namespace App\DataFixtures;
 
 use App\Entity\Content;
+use App\Entity\Media;
 use App\Entity\Opinion;
+use App\Entity\TypeMedia;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class OpinionFixtures extends Fixture implements DependentFixtureInterface
+class MediaFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
-        $users = $manager->getRepository(User::class)->findAll();
         $contents = $manager->getRepository(Content::class)->findAll();
+        $typeImage = $manager->getRepository(TypeMedia::class)->findOneBy(['name' => 'Image']);
 
         for ($i = 0; $i < 60; $i++) {
-            $product = (new Opinion())
-                ->setAuthor($faker->randomElement($users))
+            $product = (new Media())
+                ->setName($faker->text($faker->numberBetween(10, 50)))
+                ->setDescription($faker->text($faker->numberBetween(100, 500)))
+                ->setPath('/todo')
                 ->setContent($faker->randomElement($contents))
-                ->setText($faker->text($faker->numberBetween(100, 500)))
-                ->setCreatedAt(new \DateTime())
-                ->addLike($faker->randomElement($users))
+                ->setType($typeImage)
             ;
             $manager->persist($product);
         }
@@ -35,8 +37,8 @@ class OpinionFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class,
             ContentFixtures::class,
+            TypeMediaFixtures::class
         ];
     }
 }

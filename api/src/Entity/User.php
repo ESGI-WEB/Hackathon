@@ -41,12 +41,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Opinion::class, mappedBy: 'likes')]
     private Collection $likedOpinions;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Content::class, orphanRemoval: true)]
+    private Collection $contents;
+
 
     public function __construct()
     {
         $this->likedContents = new ArrayCollection();
         $this->opinions = new ArrayCollection();
         $this->likedOpinions = new ArrayCollection();
+        $this->contents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,5 +205,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getContents(): Collection
+    {
+        return $this->contents;
     }
 }

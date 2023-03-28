@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class TypeMediaFixtures extends Fixture implements DependentFixtureInterface
+class TypeMediaFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
@@ -39,12 +39,5 @@ class TypeMediaFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($soundType);
 
         $manager->flush();
-    }
-
-    public function getDependencies()
-    {
-        return [
-            UserFixtures::class
-        ];
     }
 }

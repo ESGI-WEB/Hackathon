@@ -32,6 +32,10 @@ class Content
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
+    #[ORM\ManyToOne(inversedBy: 'contents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->media = new ArrayCollection();
@@ -76,22 +80,22 @@ class Content
         return $this->media;
     }
 
-    public function addMedium(Media $medium): self
+    public function addMedia(Media $media): self
     {
-        if (!$this->media->contains($medium)) {
-            $this->media[] = $medium;
-            $medium->setContent($this);
+        if (!$this->media->contains($media)) {
+            $this->media[] = $media;
+            $media->setContent($this);
         }
 
         return $this;
     }
 
-    public function removeMedium(Media $medium): self
+    public function removeMedia(Media $media): self
     {
-        if ($this->media->removeElement($medium)) {
+        if ($this->media->removeElement($media)) {
             // set the owning side to null (unless already changed)
-            if ($medium->getContent() === $this) {
-                $medium->setContent(null);
+            if ($media->getContent() === $this) {
+                $media->setContent(null);
             }
         }
 
@@ -148,6 +152,18 @@ class Content
                 $opinion->setContent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
