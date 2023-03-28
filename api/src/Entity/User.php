@@ -38,11 +38,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
+    #[ORM\ManyToMany(targetEntity: Opinion::class, mappedBy: 'likes')]
+    private Collection $likedOpinions;
+
 
     public function __construct()
     {
         $this->likedContents = new ArrayCollection();
         $this->opinions = new ArrayCollection();
+        $this->likedOpinions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +171,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->likedContents->removeElement($content)) {
             $content->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Opinion>
+     */
+    public function getLikedOpinions(): Collection
+    {
+        return $this->likedOpinions;
+    }
+
+    public function addLikedOpinion(Opinion $likedOpinion): self
+    {
+        if (!$this->likedOpinions->contains($likedOpinion)) {
+            $this->likedOpinions[] = $likedOpinion;
+            $likedOpinion->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedOpinion(Opinion $likedOpinion): self
+    {
+        if ($this->likedOpinions->removeElement($likedOpinion)) {
+            $likedOpinion->removeLike($this);
         }
 
         return $this;

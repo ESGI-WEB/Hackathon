@@ -8,11 +8,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture implements DependentFixtureInterface
+class UserFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $pwd = '$2y$13$J5IdOLXFmW3MODsiWy38EufpneHTy2fpZt.zJrk/CPhDDq74JMIyK';
+        $pwd = '$2y$13$19U8JcKxqE9jNoSbVgZQ/u06ja8LcQ.31BXvCZcnqa9hPppl/lH86';
 
         $user = (new User())
             ->setEmail('user@user.fr')
@@ -36,12 +36,5 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($moderator);
 
         $manager->flush();
-    }
-
-    public function getDependencies()
-    {
-        return [
-            CategoryFixtures::class
-        ];
     }
 }
