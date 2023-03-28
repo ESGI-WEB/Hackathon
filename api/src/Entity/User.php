@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Content::class, orphanRemoval: true)]
     private Collection $contents;
 
+    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'targetedUsers')]
+    private Collection $themes;
+
 
     public function __construct()
     {
@@ -51,6 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->opinions = new ArrayCollection();
         $this->likedOpinions = new ArrayCollection();
         $this->contents = new ArrayCollection();
+        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +179,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->likedContents->removeElement($content)) {
             $content->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Theme>
+     */
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes[] = $theme;
+            $theme->addTargetedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->themes->removeElement($theme)) {
+            $theme->removeTargetedUser($this);
         }
 
         return $this;

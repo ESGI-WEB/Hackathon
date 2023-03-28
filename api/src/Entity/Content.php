@@ -36,11 +36,15 @@ class Content
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'c�ontents')]
+    private Collection $themes;
+
     public function __construct()
     {
         $this->media = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->opinions = new ArrayCollection();
+        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +168,33 @@ class Content
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Theme>
+     */
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes[] = $theme;
+            $theme->addCOntent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->themes->removeElement($theme)) {
+            $theme->removeCOntent($this);
+        }
 
         return $this;
     }
