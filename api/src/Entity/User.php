@@ -32,20 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'users')]
-    private ?self $author = null;
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: self::class)]
-    private Collection $users;
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Joke::class)]
-    private Collection $jokes;
 
     public function __construct()
-    {
-        $this->users = new ArrayCollection();
-        $this->jokes = new ArrayCollection();
-    }
+    { }
 
     public function getId(): ?int
     {
@@ -115,77 +104,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getAuthor(): ?self
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?self $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(self $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(self $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getAuthor() === $this) {
-                $user->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Joke>
-     */
-    public function getJokes(): Collection
-    {
-        return $this->jokes;
-    }
-
-    public function addJoke(Joke $joke): self
-    {
-        if (!$this->jokes->contains($joke)) {
-            $this->jokes[] = $joke;
-            $joke->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeJoke(Joke $joke): self
-    {
-        if ($this->jokes->removeElement($joke)) {
-            // set the owning side to null (unless already changed)
-            if ($joke->getAuthor() === $this) {
-                $joke->setAuthor(null);
-            }
-        }
-
-        return $this;
     }
 }
