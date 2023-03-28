@@ -32,9 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToMany(targetEntity: Content::class, mappedBy: 'likes')]
+    private Collection $likedContents;
+
 
     public function __construct()
-    { }
+    {
+        $this->likedContents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +109,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getLikedContents(): Collection
+    {
+        return $this->likedContents;
+    }
+
+    public function addContent(Content $content): self
+    {
+        if (!$this->likedContents->contains($content)) {
+            $this->likedContents[] = $content;
+            $content->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(Content $content): self
+    {
+        if ($this->likedContents->removeElement($content)) {
+            $content->removeLike($this);
+        }
+
+        return $this;
     }
 }
