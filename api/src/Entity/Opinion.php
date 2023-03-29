@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\OpinionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +18,41 @@ use Gedmo\Mapping\Annotation\Timestampable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OpinionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Put(),
+        new Delete(),
+        new Post(
+            uriTemplate: '/opinions/{id}/like',
+            controller: 'App\Controller\AddLikeOpinionController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'like',
+        ),
+        new Post(
+            uriTemplate: '/opinions/{id}/unlike',
+            controller: 'App\Controller\RemoveLikeOpinionController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'unlike',
+        )
+    ],
+)]
 class Opinion
 {
     #[ORM\Id]
