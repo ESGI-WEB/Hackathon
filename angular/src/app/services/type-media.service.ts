@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {Theme} from "../models/theme";
+import {Typemedia} from "../models/typemedia";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ThemeService {
+export class TypeMediaService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getThemes(): Observable<Theme[]> {
-    return this.http.get<Theme[]>('https://localhost/themes').pipe(
+  getTypeMedias(): Observable<Typemedia[]> {
+    return this.http.get<Typemedia[]>('https://localhost/type_media').pipe(
       map((response: any) => {
         return response['hydra:member'];
       })

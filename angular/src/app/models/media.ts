@@ -5,5 +5,5 @@ export interface Media {
   path: string;
   content: string;
   type: string;
-
 }
+

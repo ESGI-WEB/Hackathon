@@ -10,22 +10,53 @@
 
     <div>
       <mat-form-field appearance="outline">
-        <mat-label>Thème de l'article</mat-label>
+        <mat-label>Thèmes de l'article</mat-label>
         <mat-select [formControl]="asFormControl(this.form.get('themes'))" multiple>
           <mat-select-trigger>
-            {{themes[0].name || ''}}
+            {{this.form.get('themes')?.value[0]?.name || ''}}
             <span *ngIf="this.form.get('themes')?.value?.length > 1">
-              (+{{this.form.get('themes')?.value?.length - 1}} {{this.form.get('themes')?.value?.length === 2 ? 'autre' : 'autres'}})
+              (+{{this.form.get('themes')?.value?.length - 1}})
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let theme of themes" [value]="theme.id">{{theme.name}}</mat-option>
+          <mat-option *ngFor="let theme of themes" [value]="theme">{{theme.name}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
+    <div *ngFor="let mediaControl of asFormArray(this.form.get('medias')).controls">
+      <div *ngIf="mediaControl.value.type.slug === 'text'">
+
+      </div>
+
+      <div *ngIf="mediaControl.value.type.slug !== 'text'">
+        <input type="file" class="file-input"
+               [accept]="'.'+mediaControl.value.type.extensions.join(',.')"
+               (change)="onFileSelected($event, mediaControl)" #fileUpload>
+
+        <div>
+          <ng-container *ngIf="mediaControl.value.file === null" [ngSwitch]="mediaControl.value.type.slug">
+            <span *ngSwitchCase="'image'">Ajouter une image</span>
+            <span *ngSwitchCase="'video'">Ajouter une video</span>
+            <span *ngSwitchCase="'podcast'">Ajouter un podcast</span>
+            <span *ngSwitchCase="'file'">Ajouter un fichier</span>
+          </ng-container>
+          <span *ngIf="mediaControl.value.file !== null">
+            {{mediaControl.value.file.name || 'Fichier ajouté'}}
+          </span>
+
+          <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="fileUpload.click()">
+            <mat-icon>{{mapMediaToIcon(mediaControl.value.type)}}</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div>
-      <button mat-raised-button color="primary">Ajouter Texte</button>
-      <button mat-raised-button color="primary">Ajouter Upload</button>
+      <button *ngFor="let typeMedia of typeMedias" mat-raised-button color="primary" (click)="addMedia(typeMedia)">
+        <mat-icon>{{mapMediaToIcon(typeMedia)}}</mat-icon>
+        {{typeMedia.name}}
+      </button>
     </div>
   </div>
 </section>
