@@ -26,7 +26,7 @@ class Content
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Media::class, orphanRemoval: true)]
     private Collection $media;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'contents')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedContents')]
     private Collection $likes;
 
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Opinion::class, orphanRemoval: true)]
@@ -36,7 +36,7 @@ class Content
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'c�ontents')]
+    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'contents')]
     private Collection $themes;
 
     public function __construct()
