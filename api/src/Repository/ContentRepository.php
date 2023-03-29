@@ -42,13 +42,26 @@ class ContentRepository extends ServiceEntityRepository
     }
 
     public function findBySearchRequest($request): array {
-        return $this->createQueryBuilder('c')
-            ->select('c')
-            ->andWhere('c.name LIKE :val')
-            ->setParameter('val', '%' . $request['name'] . '%')
-            ->join('c.themes', 't')
-            ->andWhere('t.id IN (:themes)')
-            ->setParameter('themes', $request['themes'])
+        $builder = $this->createQueryBuilder('c')
+            ->select('c');
+
+        if (isset($request['name'])) {
+            $builder->andWhere('c.name LIKE :val')
+                ->setParameter('val', '%' . $request['name'] . '%');
+        }
+
+        if (isset($request['themes']) && count($request['themes']) > 0) {
+            $builder->join('c.themes', 't')
+                ->andWhere('t.id IN (:themes)')
+                ->setParameter('themes', $request['themes']);
+        }
+
+        if (isset($request['status']) && count($request['status']) > 0) {
+            $builder->andWhere('c.status IN (:status)')
+                ->setParameter('status', $request['status']);
+        }
+
+        return $builder
             ->groupBy('c')
             ->getQuery()
             ->getResult()

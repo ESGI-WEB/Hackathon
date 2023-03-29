@@ -17,6 +17,7 @@ class ContentSearchController extends AbstractController
         $data = [
             'name' => $arrayData['name'] ?? '',
             'themes' => $arrayData['themes'] ?? [],
+            'status' => $arrayData['status'] ?? [],
         ];
         $contents = $this->contentRepository->findBySearchRequest($data);
 

@@ -47,6 +47,14 @@ use Doctrine\ORM\Mapping as ORM;
                                             'example' => '16',
                                         ],
                                     ],
+                                    'status' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'string',
+                                            'example' => 'validated',
+                                            'description' => 'validated, pending or refused',
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],
