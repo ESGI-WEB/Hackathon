@@ -1,0 +1,31 @@
+<section>
+  <h2>Ajout de contenu</h2>
+  <div *ngIf="!loading && this.form">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Nom de l'article</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Thème de l'article</mat-label>
+        <mat-select [formControl]="asFormControl(this.form.get('themes'))" multiple>
+          <mat-select-trigger>
+            {{themes[0].name || ''}}
+            <span *ngIf="this.form.get('themes')?.value?.length > 1">
+              (+{{this.form.get('themes')?.value?.length - 1}} {{this.form.get('themes')?.value?.length === 2 ? 'autre' : 'autres'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let theme of themes" [value]="theme.id">{{theme.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button mat-raised-button color="primary">Ajouter Texte</button>
+      <button mat-raised-button color="primary">Ajouter Upload</button>
+    </div>
+  </div>
+</section>

@@ -11,6 +11,10 @@ const routes: Routes = [
         loadChildren: () => import('../../features/home/home.module').then(mod => mod.HomeModule),
       },
       {
+        path: 'upload',
+        loadChildren: () => import('../../features/upload/upload.module').then(mod => mod.UploadModule),
+      },
+      {
         path: '**', redirectTo: 'accueil'
       }
     ]
