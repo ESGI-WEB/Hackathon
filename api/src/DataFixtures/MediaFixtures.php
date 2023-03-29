@@ -18,15 +18,14 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
         $contents = $manager->getRepository(Content::class)->findAll();
-        $typeImage = $manager->getRepository(TypeMedia::class)->findOneBy(['name' => 'Image']);
+        $type = $manager->getRepository(TypeMedia::class)->findOneBy(['slug' => 'text']);
 
         for ($i = 0; $i < 60; $i++) {
             $product = (new Media())
                 ->setName($faker->text($faker->numberBetween(10, 50)))
-                ->setDescription($faker->text($faker->numberBetween(100, 500)))
-                ->setPath('/todo')
+                ->setDescription($faker->randomHtml(4, 5))
                 ->setContent($faker->randomElement($contents))
-                ->setType($typeImage)
+                ->setType($type)
             ;
             $manager->persist($product);
         }

@@ -2,13 +2,66 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use App\Controller\CreateMediaObjectAction;
 use App\Repository\MediaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
-#[ApiResource]
+#[Vich\Uploadable]
+#[ApiResource(
+    types: ['https://schema.org/MediaObject'],
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Put(),
+        new Delete(),
+        new Patch(),
+        new Post(
+            controller: CreateMediaObjectAction::class,
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary',
+                                    ],
+                                    'name' => [
+                                        'type' => 'string',
+                                    ],
+                                    'description' => [
+                                        'type' => 'string',
+                                    ],
+                                    'content' => [
+                                        'type' => 'integer',
+                                        'description' => 'Content id',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            deserialize: false
+        )
+    ],
+    normalizationContext: ['groups' => ['media_object:read']]
+)]
 class Media
 {
     #[ORM\Id]
@@ -17,12 +70,21 @@ class Media
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 100)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\File(
+        maxSize: '2M',
+    )]
+    #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "path")]
+    public ?File $file = null;
+
+    #[ApiProperty(types: ['https://schema.org/contentUrl'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'media')]
@@ -96,5 +158,10 @@ class Media
         $this->type = $type;
 
         return $this;
+    }
+
+    public function setFile(File $file = null): void
+    {
+        $this->file = $file;
     }
 }

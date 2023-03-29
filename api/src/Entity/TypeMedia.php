@@ -27,6 +27,9 @@ class TypeMedia
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Media::class, orphanRemoval: true)]
     private Collection $media;
 
+    #[ORM\Column(length: 30)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->media = new ArrayCollection();
@@ -87,6 +90,18 @@ class TypeMedia
                 $medium->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
