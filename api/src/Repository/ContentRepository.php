@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Content;
+use App\Entity\Theme;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,20 @@ class ContentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findBySearchRequest($request): array {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->andWhere('c.name LIKE :val')
+            ->setParameter('val', '%' . $request['name'] . '%')
+            ->join('c.themes', 't')
+            ->andWhere('t.id IN (:themes)')
+            ->setParameter('themes', $request['themes'])
+            ->groupBy('c')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**
