@@ -261,6 +261,10 @@
       <path value="$PROJECT_DIR$/back/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/back/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/back/vendor/composer" />
+      <path value="$PROJECT_DIR$/api/vendor/jms/metadata" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/api/vendor/vich/uploader-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

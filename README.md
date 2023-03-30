@@ -1,3 +1,19 @@
+## INSTALLATION STEPS
+- Install docker and docker-compose
+- Clone the repository
+- Run `docker-compose up -d`
+- Run `php bin/console lexik:jwt:generate-keypair` to generate the jwt keys
+- Run `php bin/console doctrine:migrations:migrate`
+- Run `php bin/console doctrine:fixtures:load`
+- Download node v19
+- Go to the angular folder `cd angular` and run `npm install`, then `npm start`
+- Go to `http://localhost:4200` for the angular app
+- Go to `https://localhost/docs` for the api documentation
+- Use `https://localhost/` as base url to call the api
+
+### Troubleshooting
+If you have an error with `@ngneat/until-destroy` when running `npm install`, run `npm install @ngneat/until-destroy`
+
 <h1 align="center"><a href="https://api-platform.com"><img src="https://api-platform.com/logo-250x250.png" alt="API Platform"></a></h1>
 
 API Platform is a next-generation web framework designed to easily create API-first projects without compromising extensibility

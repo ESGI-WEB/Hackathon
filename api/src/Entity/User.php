@@ -32,9 +32,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToMany(targetEntity: Content::class, mappedBy: 'likes')]
+    private Collection $likedContents;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Opinion::class, orphanRemoval: true)]
+    private Collection $opinions;
+
+    #[ORM\ManyToMany(targetEntity: Opinion::class, mappedBy: 'likes')]
+    private Collection $likedOpinions;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Content::class, orphanRemoval: true)]
+    private Collection $contents;
+
+    #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'targetedUsers')]
+    private Collection $themes;
+
 
     public function __construct()
-    { }
+    {
+        $this->likedContents = new ArrayCollection();
+        $this->opinions = new ArrayCollection();
+        $this->likedOpinions = new ArrayCollection();
+        $this->contents = new ArrayCollection();
+        $this->themes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +125,124 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Opinion>
+     */
+    public function getOpinions(): Collection
+    {
+        return $this->opinions;
+    }
+
+    public function addOpinion(Opinion $opinion): self
+    {
+        if (!$this->opinions->contains($opinion)) {
+            $this->opinions[] = $opinion;
+            $opinion->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOpinion(Opinion $opinion): self
+    {
+        if ($this->opinions->removeElement($opinion)) {
+            // set the owning side to null (unless already changed)
+            if ($opinion->getAuthor() === $this) {
+                $opinion->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getLikedContents(): Collection
+    {
+        return $this->likedContents;
+    }
+
+    public function addContent(Content $content): self
+    {
+        if (!$this->likedContents->contains($content)) {
+            $this->likedContents[] = $content;
+            $content->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(Content $content): self
+    {
+        if ($this->likedContents->removeElement($content)) {
+            $content->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Theme>
+     */
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes[] = $theme;
+            $theme->addTargetedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->themes->removeElement($theme)) {
+            $theme->removeTargetedUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Opinion>
+     */
+    public function getLikedOpinions(): Collection
+    {
+        return $this->likedOpinions;
+    }
+
+    public function addLikedOpinion(Opinion $likedOpinion): self
+    {
+        if (!$this->likedOpinions->contains($likedOpinion)) {
+            $this->likedOpinions[] = $likedOpinion;
+            $likedOpinion->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedOpinion(Opinion $likedOpinion): self
+    {
+        if ($this->likedOpinions->removeElement($likedOpinion)) {
+            $likedOpinion->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getContents(): Collection
+    {
+        return $this->contents;
     }
 }
