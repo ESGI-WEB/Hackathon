@@ -24,6 +24,10 @@ class ContentFixtures extends Fixture implements DependentFixtureInterface
                 ->setDescription($faker->text($faker->numberBetween(50, 200)))
                 ->setStatus($faker->randomElement(['validated', 'pending', 'refused']))
             ;
+
+            for ($j = 0; $j < $faker->numberBetween(0, 10); $j++) {
+                $product->addLike($faker->randomElement($users));
+            }
             $manager->persist($product);
         }
 
