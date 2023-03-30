@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
-#[ApiResource]
+#[ApiResource(order: ['name' => 'ASC'])]
 class Theme
 {
     #[ORM\Id]

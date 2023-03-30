@@ -5,6 +5,7 @@ namespace App\Controller;
 use ApiPlatform\Symfony\Validator\Exception\ValidationException;
 use App\Entity\Media;
 use App\Repository\ContentRepository;
+use App\Repository\TypeMediaRepository;
 use App\Services\MediaTypeServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Psr7\UploadedFile;
@@ -20,16 +21,19 @@ final class CreateMediaObjectAction extends AbstractController
     private MediaTypeServiceInterface $mediaTypeService;
     private ValidatorInterface $validator;
     private ContentRepository $contentRepository;
+    private TypeMediaRepository $typeMediaRepository;
 
     public function __construct(
         MediaTypeServiceInterface $mediaTypeService,
         ValidatorInterface $validator,
-        ContentRepository $contentRepository
+        ContentRepository $contentRepository,
+        TypeMediaRepository $typeMediaRepository
     )
     {
         $this->mediaTypeService = $mediaTypeService;
         $this->validator = $validator;
         $this->contentRepository = $contentRepository;
+        $this->typeMediaRepository = $typeMediaRepository;
     }
 
     public function __invoke(Request $request): Media
@@ -51,7 +55,7 @@ final class CreateMediaObjectAction extends AbstractController
             if (!$mediaObject->getDescription()) {
                 throw new BadRequestHttpException('You must provide a description or a file');
             }
-            $mediaObject->setType($this->mediaTypeService->getMediaType('text'));
+            $mediaObject->setType($this->typeMediaRepository->findOneBy(['slug' => 'text']));
         }
 
         // TODO : add validation
