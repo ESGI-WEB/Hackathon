@@ -35,14 +35,15 @@
 
   .content-card {
     padding: 5px 0 5px 0;
-    width: 220px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
+    margin-right: 10px;
   }
 
   .image-card {
-    width: 115px;
+    width: 130px;
     position: relative;
 
     > img {
