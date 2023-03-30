@@ -28,15 +28,10 @@
   flex-direction: row;
   border-radius: 10px;
   background-color: #FFFFFF;
-  height: 135px;
   gap: 10px;
 }
 
-.section-card {
-  margin: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+.card-articles {
 
   .content-card {
     padding: 5px 0 5px 0;
@@ -45,6 +40,8 @@
     flex-direction: column;
     justify-content: space-between;
   }
+
+  height: 135px;
 
   .image-card {
     height: 100%;
@@ -58,6 +55,41 @@
       object-fit: cover;
     }
   }
+}
+
+.card-questions {
+
+  font-size: 12px!important;
+
+  .content-card {
+    margin: 0 10px 0 10px;
+    padding: 5px 0 5px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .image-card {
+    height: 100%;
+    width: 80px;
+    position: relative;
+
+    > img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.section-card {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
 }
 
 mat-chip-set {
@@ -99,17 +131,17 @@ mat-chip-set {
   justify-content: space-between;
 }
 
-
 .title-section {
-  padding: 10px 0 0 10px;
+  padding: 10px 0 0 0;
   display: flex;
-  background-color: #FFEDEC;
   justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 h1 {
   margin: 0!important;
-  color: #1F2F42;
+  color: #355070;
 }
 
 .pink-after {
@@ -137,4 +169,48 @@ h1 {
 
 .number {
   font-size: 12px;
+}
+
+.hr {
+  width: 100%;
+}
+
+.hr1 {
+  > hr {
+    background-color: #75A3E3;
+  }
+}
+
+hr {
+  border: none;
+  height: 2px;
+}
+
+.hr2 {
+  > hr {
+    background-color: #E1E5EA;
+  }
+}
+
+.event {
+  background-color: #FFEDEC;
+  display: flex;
+  flex-direction: column;
+
+  > p {
+    color: #8696A9;
+    text-align: center;
+  }
+}
+
+.icon-title {
+  display: flex;
+  gap: 5px;
+}
+
+.icon-title mat-icon {
+  background-color: #75A3E3;
+  padding: 3px;
+  color: white;
+  border-radius: 50%;
 }

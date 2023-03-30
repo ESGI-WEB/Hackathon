@@ -6,16 +6,20 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatIconModule} from "@angular/material/icon";
+import {NgForOf} from "@angular/common";
 
 @NgModule({
   declarations: [
     HomeComponent,
   ],
-    imports: [
-        HomeRoutingModule,
-        MatTabsModule,
-        MatCardModule,
-        MatChipsModule
-    ]
+  imports: [
+    HomeRoutingModule,
+    MatTabsModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    NgForOf
+  ]
 })
 export class HomeModule { }
