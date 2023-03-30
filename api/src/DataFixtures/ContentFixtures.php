@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Content;
 use App\Entity\Opinion;
+use App\Entity\Status;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -22,7 +23,7 @@ class ContentFixtures extends Fixture implements DependentFixtureInterface
                 ->setAuthor($faker->randomElement($users))
                 ->setName($faker->text($faker->numberBetween(10, 50)))
                 ->setDescription($faker->text($faker->numberBetween(50, 200)))
-                ->setStatus($faker->randomElement(['validated', 'pending', 'refused']))
+                ->setStatus($faker->randomElement([Status::VALIDATED, Status::PENDING, Status::REJECTED]))
             ;
             $manager->persist($product);
         }
