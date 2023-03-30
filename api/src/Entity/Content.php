@@ -12,6 +12,7 @@ use App\Repository\ContentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ContentRepository::class)]
 #[ApiResource(
@@ -63,37 +64,76 @@ use Doctrine\ORM\Mapping as ORM;
             ],
             deserialize: false,
             name: 'search',
-        )
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/like',
+            controller: 'App\Controller\AddContentLikeController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'contentLike',
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/unlike',
+            controller: 'App\Controller\RemoveContentLikeController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'contentUnlike',
+        ),
     ],
+    normalizationContext: ['groups' => ['read:content']],
 )]
 class Content
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
+    #[Groups(['read:content'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['read:content'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['read:content'])]
     private ?string $status = null;
 
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Media::class, orphanRemoval: true)]
+    #[Groups(['read:content'])]
     private Collection $media;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedContents')]
+    #[Groups(['read:content'])]
     private Collection $likes;
 
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Opinion::class, orphanRemoval: true)]
+    #[Groups(['read:content'])]
     private Collection $opinions;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read:content'])]
     private ?User $author = null;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'contents')]
+    #[Groups(['read:content'])]
     private Collection $themes;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['read:content'])]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -251,6 +291,18 @@ class Content
         if ($this->themes->removeElement($theme)) {
             $theme->removeCOntent($this);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

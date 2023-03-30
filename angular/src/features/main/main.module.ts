@@ -7,23 +7,23 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatButtonModule} from "@angular/material/button";
-import {AppModule} from "../../app/app.module";
 import {CommonModule} from "@angular/common";
-import {BrowserModule} from "@angular/platform-browser";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
     MainComponent,
   ],
-  imports: [
-    CommonModule,
-    MainRoutingModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule
-  ],
+    imports: [
+        CommonModule,
+        MainRoutingModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDividerModule,
+        MatListModule
+    ],
   providers: [],
 })
 export class MainModule {}
