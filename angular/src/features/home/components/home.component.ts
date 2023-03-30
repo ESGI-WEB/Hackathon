@@ -1,4 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ContentService} from "../../../app/services/content.service";
+import {Content} from "../../../app/models/content";
 
 export interface Question {
   question: string;
@@ -16,12 +18,17 @@ export interface Question {
 export class HomeComponent implements OnInit {
 
   public questions: Array<Question>
+  public contents: Array<Content>
 
-  constructor() {
-    this.questions = []
+  constructor(
+    private contentService: ContentService
+  ) {
+    this.questions = [];
+    this.contents = []
   }
 
   ngOnInit(): void {
+    this._getContents()
     this._setQuestions()
   }
 
@@ -58,6 +65,12 @@ export class HomeComponent implements OnInit {
         themes: ['enfant', 'ajout', 'coût']
       }
     ]
+  }
+
+  private _getContents() {
+    this.contentService.getContents().subscribe((contents) => {
+      this.contents = contents
+    })
   }
 
 }

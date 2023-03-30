@@ -1,3 +1,5 @@
+import {Theme} from "./theme";
+
 export interface Content {
   id: number;
   name: string;
@@ -6,6 +8,6 @@ export interface Content {
   likes: string[];
   opinions: string[];
   author: string;
-  themes: string[];
-
+  themes: Theme[];
+  description: string;
 }

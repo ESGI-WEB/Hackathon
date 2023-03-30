@@ -10,7 +10,6 @@ import {Content} from "../models/content";
 export class ContentService {
 
   constructor(private http: HttpClient) { }
-
   getContents(): Observable<Content[]> {
     return this.http.get<Content[]>('https://localhost/contents').pipe(
       map((response: any) => {

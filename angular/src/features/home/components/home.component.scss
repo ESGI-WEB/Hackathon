@@ -41,10 +41,7 @@
     justify-content: space-between;
   }
 
-  height: 135px;
-
   .image-card {
-    height: 100%;
     width: 115px;
     position: relative;
 
@@ -85,11 +82,12 @@
 }
 
 .section-card {
+  height: calc(100vh - 215px);
   margin: 16px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-
+  overflow: scroll;
 }
 
 mat-chip-set {
@@ -214,3 +212,13 @@ hr {
   color: white;
   border-radius: 50%;
 }
+
+h3 {
+  font-size: 14px!important;
+  margin-bottom: 5px!important;
+}
+
+p {
+  font-size: 12px!important;
+}
+
