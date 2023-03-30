@@ -1,0 +1,140 @@
+.mat-mdc-tab, .mat-mdc-tab-link {
+  background-color: #5E82B6;
+  border-radius: 0 20px 20px 0;
+  width: 100px;
+}
+
+.mat-mdc-tab:first-of-type{
+  border-radius: 20px 0 0 20px;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  width: 50px;
+  border-color: white;
+}
+
+.mdc-tab__text-label {
+  color: white!important;
+}
+
+.mat-mdc-tab.mdc-tab {
+  height: 30px!important;
+  padding-right: 14px;
+  padding-left: 14px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  height: 135px;
+  gap: 10px;
+}
+
+.section-card {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .content-card {
+    padding: 5px 0 5px 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .image-card {
+    height: 100%;
+    width: 115px;
+    position: relative;
+
+    > img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+mat-chip-set {
+  font-size: 10px!important;
+}
+
+.mat-mdc-chip {
+  height: 20px!important;
+  border-radius: 10px!important;
+}
+
+.mdc-evolution-chip__text-label, .mat-mdc-chip-action-label {
+  color: #8696A9!important;
+  font-size: 10px!important;
+}
+
+.icon-image {
+  display: flex;
+}
+
+.goutte-commentaire {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: flex-end;
+  height: 100%;
+
+  > div {
+    height: 80%;
+    > img {
+      height: 100%;
+    }
+  }
+}
+
+.section-chips {
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.title-section {
+  padding: 10px 0 0 10px;
+  display: flex;
+  background-color: #FFEDEC;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0!important;
+  color: #1F2F42;
+}
+
+.pink-after {
+  width: 100vw;
+
+  > img {
+    width: 100%;
+  }
+  transform: translateY(-5px);
+}
+
+.mdc-evolution-chip-set .mdc-evolution-chip {
+  margin: 0 5px 5px 0!important;
+}
+
+.mdc-evolution-chip-set:first-of-type .mdc-evolution-chip:first-of-type {
+  margin: 0 5px 5px 10px!important;
+}
+
+.section-commentaire-goutte {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.number {
+  font-size: 12px;
+}
