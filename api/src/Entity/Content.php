@@ -129,6 +129,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
             deserialize: false,
             name: 'contentUnlike',
         ),
+        new Post(
+            uriTemplate: '/contents/{id}/validate',
+            controller: 'App\Controller\ValidateContentController',
+            openapiContext:[
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ]
+                ]
+            ],
+            deserialize: false,
+            name: 'validationContent',
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/reject',
+            controller: 'App\Controller\RejectContentController',
+            openapiContext:[
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ]
+                ]
+            ],
+            deserialize: false,
+            name: 'rejectContent',
+        ),
     ],
     normalizationContext: ['groups' => ['read:content']],
 )]
