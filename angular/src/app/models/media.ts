@@ -7,3 +7,10 @@ export interface Media {
   type: string;
 }
 
+export interface PostMedia {
+  name: string;
+  description: string;
+  content: number;
+  file: File;
+}
+

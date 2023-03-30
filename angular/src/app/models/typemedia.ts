@@ -11,7 +11,7 @@ export function mapMediaToIcon(type: Typemedia) {
     case 'image':
       return 'image';
     case 'video':
-      return 'local_movies';
+      return 'movie';
     case 'podcast':
       return 'mic';
     case 'file':

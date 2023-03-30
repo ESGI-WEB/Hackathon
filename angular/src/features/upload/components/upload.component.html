@@ -1,5 +1,8 @@
 <section>
   <h2>Ajouter un contenu</h2>
+  <div *ngIf="loading" class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
   <div *ngIf="!loading && this.form">
     <section class="card">
       <mat-form-field appearance="outline">
@@ -26,10 +29,13 @@
       </mat-form-field>
     </section>
 
-    <section class="card" *ngFor="let mediaControl of asFormArray(this.form.get('medias')).controls">
+    <section class="card" *ngFor="let mediaControl of asFormArray(this.form.get('medias')).controls; let index = index">
+      <mat-icon class="delete-media" (click)="deleteMedia(index)">remove_circle_outline</mat-icon>
+
       <mat-form-field appearance="outline">
         <mat-label>Titre du media</mat-label>
         <input matInput [formControl]="asFormControl(mediaControl.get('name'))">
+        <mat-icon matPrefix class="prefix-icon">{{mapMediaToIcon(mediaControl.value.type)}}</mat-icon>
       </mat-form-field>
 
       <ng-container *ngIf="mediaControl.value.type.slug === 'text'">
@@ -46,10 +52,10 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Description du media</mat-label>
-          <textarea matInput [formControl]="asFormControl(mediaControl.get('name'))"></textarea>
+          <textarea matInput [formControl]="asFormControl(mediaControl.get('description'))"></textarea>
         </mat-form-field>
 
-        <div class="upload-btn">
+        <div class="upload-btn" (click)="fileUpload.click()">
           <ng-container *ngIf="mediaControl.value.file === null" [ngSwitch]="mediaControl.value.type.slug">
             <span *ngSwitchCase="'image'">Ajouter une image</span>
             <span *ngSwitchCase="'video'">Ajouter une video</span>
@@ -60,8 +66,7 @@
             {{mediaControl.value.file.name || 'Fichier ajouté'}}
           </span>
 
-          <button mat-mini-fab color="primary"
-                  (click)="fileUpload.click()">
+          <button mat-mini-fab color="primary">
             <mat-icon>add_circle_outline</mat-icon>
           </button>
         </div>
@@ -74,5 +79,9 @@
         <span>Ajouter</span>
       </div>
     </section>
+
+    <div class="submit-button">
+      <button mat-raised-button color="primary" (click)="submit()">Publier</button>
+    </div>
   </div>
 </section>

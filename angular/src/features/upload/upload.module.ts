@@ -11,6 +11,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {AngularEditorModule} from "@kolkov/angular-editor";
 import {UploadMenuComponent} from "./components/upload-menu.component";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatButtonModule,
     AngularEditorModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class UploadModule { }
