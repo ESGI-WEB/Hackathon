@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -18,9 +19,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -45,6 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $contents;
 
     #[ORM\ManyToMany(targetEntity: Theme::class, mappedBy: 'targetedUsers')]
+    #[Groups(['read:content'])]
     private Collection $themes;
 
 
