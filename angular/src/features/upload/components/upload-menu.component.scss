@@ -1,0 +1,31 @@
+:host {
+  .actions {
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+
+    .tile {
+      box-sizing: border-box;
+      background: #FFFFFF;
+      border: 1px solid #1F2F42;
+      border-radius: 8px;
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 8px;
+      color: #5D738D;
+      cursor: pointer;
+
+      mat-icon {
+        font-size: 36px;
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+}
+

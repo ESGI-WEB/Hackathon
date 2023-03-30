@@ -1,10 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {ThemeService} from "../../../app/services/theme.service";
 import {zip} from "rxjs";
 import {Theme} from "../../../app/models/theme";
 import {TypeMediaService} from "../../../app/services/type-media.service";
-import {Typemedia} from "../../../app/models/typemedia";
+import {mapMediaToIcon, Typemedia} from "../../../app/models/typemedia";
+import {AngularEditorConfig} from "@kolkov/angular-editor/lib/config";
+import {MatDialog} from "@angular/material/dialog";
+import {UploadMenuComponent} from "./upload-menu.component";
 
 @Component({
   selector: 'app-main',
@@ -16,10 +28,27 @@ export class UploadComponent implements OnInit {
   public loading = true;
   public themes: Theme[] = [];
   public typeMedias: Typemedia[] = [];
+  public editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    translate: 'yes',
+    placeholder: 'Enter text here...',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    toolbarHiddenButtons: [
+      ['bold', 'italic'],
+      ['fontSize','insertImage','insertVideo']
+    ]
+  }
 
   constructor(
     private themeService: ThemeService,
     private typeMediaService: TypeMediaService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -47,6 +76,7 @@ export class UploadComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       themes: [[], [Validators.required]],
       medias: fb.array([], [Validators.required]),
+      description: ['', [Validators.required, Validators.minLength(100), Validators.maxLength(255)]],
     })
   }
 
@@ -55,9 +85,9 @@ export class UploadComponent implements OnInit {
     const control = this.form?.get('medias') as FormArray;
     control.push(fb.group({
       type: type, // used to display the right upload component
-      file: [null, []],
+      file: [null, [fileValidator(type)]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5000)]],
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10000)]],
     }));
   }
 
@@ -69,21 +99,21 @@ export class UploadComponent implements OnInit {
     }
   }
 
+  openDialog(): void {
+    this.dialog.open(UploadMenuComponent, {
+      minWidth: '300px',
+      data: {typeMedias: this.typeMedias}
+    }).afterClosed().subscribe({
+      next: (typeMedia: Typemedia) => {
+        if (typeMedia) {
+          this.addMedia(typeMedia);
+        }
+      }
+    });
+  }
+
   mapMediaToIcon(type: Typemedia) {
-    switch (type.slug) {
-      case 'text':
-        return 'text_fields';
-      case 'image':
-        return 'image';
-      case 'video':
-        return 'local_movies';
-      case 'podcast':
-        return 'mic';
-      case 'file':
-        return 'insert_drive_file';
-      default:
-        return 'add_circle';
-    }
+    return mapMediaToIcon(type);
   }
 
   asFormControl(control: any): FormControl {
@@ -92,5 +122,17 @@ export class UploadComponent implements OnInit {
 
   asFormArray(control: any): FormArray {
     return control as FormArray;
+  }
+}
+
+export function fileValidator(type: Typemedia): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value && type.slug !== 'text') {
+      return {fileRequired: true};
+    }
+
+    return null;
   }
 }

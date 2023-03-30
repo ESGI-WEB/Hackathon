@@ -8,10 +8,14 @@ import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
+import {AngularEditorModule} from "@kolkov/angular-editor";
+import {UploadMenuComponent} from "./components/upload-menu.component";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     UploadComponent,
+    UploadMenuComponent,
   ],
   imports: [
     UploadRoutingModule,
@@ -20,7 +24,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
-    MatButtonModule
+    MatButtonModule,
+    AngularEditorModule,
+    MatDialogModule,
   ]
 })
 export class UploadModule { }

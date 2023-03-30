@@ -1,0 +1,8 @@
+<section class="actions">
+  <div class="tile" *ngFor="let typeMedia of typeMedias"
+          [mat-dialog-close]="typeMedia"
+  >
+    <mat-icon>{{mapMediaToIcon(typeMedia)}}</mat-icon>
+    {{typeMedia.name}}
+  </div>
+</section>

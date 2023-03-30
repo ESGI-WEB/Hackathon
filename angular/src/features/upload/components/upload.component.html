@@ -1,14 +1,12 @@
 <section>
-  <h2>Ajout de contenu</h2>
+  <h2>Ajouter un contenu</h2>
   <div *ngIf="!loading && this.form">
-    <div>
+    <section class="card">
       <mat-form-field appearance="outline">
         <mat-label>Nom de l'article</mat-label>
-        <input matInput>
+        <input matInput [formControl]="asFormControl(this.form.get('name'))">
       </mat-form-field>
-    </div>
 
-    <div>
       <mat-form-field appearance="outline">
         <mat-label>Thèmes de l'article</mat-label>
         <mat-select [formControl]="asFormControl(this.form.get('themes'))" multiple>
@@ -21,19 +19,37 @@
           <mat-option *ngFor="let theme of themes" [value]="theme">{{theme.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <div *ngFor="let mediaControl of asFormArray(this.form.get('medias')).controls">
-      <div *ngIf="mediaControl.value.type.slug === 'text'">
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput [formControl]="asFormControl(this.form.get('description'))"></textarea>
+      </mat-form-field>
+    </section>
 
-      </div>
+    <section class="card" *ngFor="let mediaControl of asFormArray(this.form.get('medias')).controls">
+      <mat-form-field appearance="outline">
+        <mat-label>Titre du media</mat-label>
+        <input matInput [formControl]="asFormControl(mediaControl.get('name'))">
+      </mat-form-field>
 
-      <div *ngIf="mediaControl.value.type.slug !== 'text'">
+      <ng-container *ngIf="mediaControl.value.type.slug === 'text'">
+        <angular-editor
+          [formControl]="asFormControl(mediaControl.get('description'))"
+          [config]="editorConfig"
+        ></angular-editor>
+      </ng-container>
+
+      <ng-container *ngIf="mediaControl.value.type.slug !== 'text'">
         <input type="file" class="file-input"
                [accept]="'.'+mediaControl.value.type.extensions.join(',.')"
                (change)="onFileSelected($event, mediaControl)" #fileUpload>
 
-        <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Description du media</mat-label>
+          <textarea matInput [formControl]="asFormControl(mediaControl.get('name'))"></textarea>
+        </mat-form-field>
+
+        <div class="upload-btn">
           <ng-container *ngIf="mediaControl.value.file === null" [ngSwitch]="mediaControl.value.type.slug">
             <span *ngSwitchCase="'image'">Ajouter une image</span>
             <span *ngSwitchCase="'video'">Ajouter une video</span>
@@ -44,19 +60,19 @@
             {{mediaControl.value.file.name || 'Fichier ajouté'}}
           </span>
 
-          <button mat-mini-fab color="primary" class="upload-btn"
+          <button mat-mini-fab color="primary"
                   (click)="fileUpload.click()">
-            <mat-icon>{{mapMediaToIcon(mediaControl.value.type)}}</mat-icon>
+            <mat-icon>add_circle_outline</mat-icon>
           </button>
         </div>
-      </div>
-    </div>
+      </ng-container>
+    </section>
 
-    <div>
-      <button *ngFor="let typeMedia of typeMedias" mat-raised-button color="primary" (click)="addMedia(typeMedia)">
-        <mat-icon>{{mapMediaToIcon(typeMedia)}}</mat-icon>
-        {{typeMedia.name}}
-      </button>
-    </div>
+    <section class="card add-media-card" (click)="openDialog()">
+      <div class="add-media">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span>Ajouter</span>
+      </div>
+    </section>
   </div>
 </section>
