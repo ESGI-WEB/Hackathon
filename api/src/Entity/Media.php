@@ -11,6 +11,7 @@ use App\Controller\CreateMediaObjectAction;
 use App\Repository\MediaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -67,24 +68,29 @@ class Media
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
+    #[Groups(['read:content'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 100)]
+    #[Groups(['read:content'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['read:content'])]
     private ?string $description = null;
 
     #[Assert\File(
         maxSize: '2M',
     )]
     #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "path")]
+    #[Groups(['read:content'])]
     public ?File $file = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read:content'])]
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'media')]
@@ -93,6 +99,7 @@ class Media
 
     #[ORM\ManyToOne(inversedBy: 'media')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read:content'])]
     private ?TypeMedia $type = null;
 
     public function getId(): ?int

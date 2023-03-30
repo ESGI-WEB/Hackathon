@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Timestampable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OpinionRepository::class)]
@@ -58,21 +59,26 @@ class Opinion
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
+    #[Groups(['read:content'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read:content'])]
     private ?User $author = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Timestampable(on: 'create')]
+    #[Groups(['read:content'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 100)]
+    #[Groups(['read:content'])]
     private ?string $text = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedOpinions')]
+    #[Groups(['read:content'])]
     private Collection $likes;
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]

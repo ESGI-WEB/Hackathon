@@ -21,6 +21,7 @@ class ContentFixtures extends Fixture implements DependentFixtureInterface
             $product = (new Content())
                 ->setAuthor($faker->randomElement($users))
                 ->setName($faker->text($faker->numberBetween(10, 50)))
+                ->setDescription($faker->text($faker->numberBetween(50, 200)))
                 ->setStatus($faker->randomElement(['validated', 'pending', 'refused']))
             ;
             $manager->persist($product);
@@ -29,7 +30,7 @@ class ContentFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class
