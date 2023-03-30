@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
             deserialize: false,
-            name: 'like',
+            name: 'opinionLike',
         ),
         new Post(
             uriTemplate: '/opinions/{id}/unlike',
@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
             deserialize: false,
-            name: 'unlike',
+            name: 'opinionUnlike',
         )
     ],
 )]

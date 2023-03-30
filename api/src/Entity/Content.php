@@ -63,7 +63,33 @@ use Doctrine\ORM\Mapping as ORM;
             ],
             deserialize: false,
             name: 'search',
-        )
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/like',
+            controller: 'App\Controller\AddContentLikeController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'contentLike',
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/unlike',
+            controller: 'App\Controller\RemoveContentLikeController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'contentUnlike',
+        ),
     ],
 )]
 class Content
