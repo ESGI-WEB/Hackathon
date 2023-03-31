@@ -8,20 +8,22 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {SafeHtmlPipe} from "./SafeHtmlPipe";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
     ContentDetailComponent,
     SafeHtmlPipe
   ],
-    imports: [
-        ContentDetailRoutingModule,
-        CommonModule,
-        MatProgressSpinnerModule,
-        MatListModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSnackBarModule,
-    ]
+  imports: [
+    ContentDetailRoutingModule,
+    CommonModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatChipsModule,
+  ]
 })
 export class ContentDetailModule { }

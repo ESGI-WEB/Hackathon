@@ -11,6 +11,14 @@
         <ng-container *ngTemplateOutlet="mediaTemplate; context: {media: mainMedia};"></ng-container>
       </div>
 
+      <div class="themes">
+        <mat-chip-set>
+          <mat-chip *ngFor="let theme of content.themes">
+            #{{theme.name}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
       <div class="content">
         <h1>{{ content.name }}</h1>
         <p>{{ content.description }}</p>
