@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ContentService} from "../../../app/services/content.service";
 import {Content} from "../../../app/models/content";
@@ -11,7 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './content-detail.component.html',
   styleUrls: ['./content-detail.component.scss'],
 })
-export class ContentDetailComponent implements OnInit {
+export class ContentDetailComponent implements OnInit, OnDestroy {
 
   public loading = true;
   public content: Content|null = null;
@@ -53,5 +53,9 @@ export class ContentDetailComponent implements OnInit {
     if (this.content?.status === 'pending') {
       this.snackBar.open("Ce contenu est en attente de validation, afin d'être disponible pour tous", "Ok");
     }
+  }
+
+  ngOnDestroy(): void {
+    this.snackBar.dismiss();
   }
 }
