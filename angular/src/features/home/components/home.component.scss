@@ -228,6 +228,13 @@ h1 {
   border: 1px solid #3B7A87;
   color: #FFFFFF;
   padding: 10px;
+  justify-content: space-between;
+
+  .success-content {
+    display: flex;
+    gap: 10px;
+
+  }
 
   p {
     font-size: 12px;
