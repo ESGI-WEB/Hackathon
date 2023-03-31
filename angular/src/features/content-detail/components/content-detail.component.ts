@@ -5,6 +5,9 @@ import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
 import {map} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl, Validators} from "@angular/forms";
+import {Opinion, PostOpinion} from "../../../app/models/opinion";
+import {OpinionService} from "../../../app/services/opinion.service";
 
 @Component({
   selector: 'app-main',
@@ -14,17 +17,22 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ContentDetailComponent implements OnInit, OnDestroy {
 
   public loading = true;
+  public submitting = false;
   public content: Content|null = null;
   public mainMedia: Media|null = null;
+  public commentControl: FormControl;
 
   constructor(
     private route: ActivatedRoute,
     private contentService: ContentService,
+    private opinionService: OpinionService,
     private snackBar: MatSnackBar,
   ) {
+    this.commentControl = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(5000)]);
   }
 
   ngOnInit(): void {
+
     const id = this.route.snapshot.paramMap.get('id');
     this.contentService.getContent(Number(id))
       .pipe(map((content) => {
@@ -47,6 +55,38 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+  }
+
+  onSubmit() {
+    if (!this.commentControl.value || !this.content) {
+      this.commentControl.markAllAsTouched();
+      return;
+    }
+
+    this.submitting = true;
+    this.snackBar.open("Ajout en cours ...");
+
+    const opinion: PostOpinion = {
+      content: this.content.id,
+      text: this.commentControl.value,
+    }
+
+    this.opinionService.postOpinion(opinion).subscribe({
+      next: (opinion) => {
+        this.content?.opinions.push(opinion);
+        this.commentControl.reset();
+        this.snackBar.dismiss();
+        this.snackBar.open("Commentaire ajouté avec succes", "Ok", {
+          duration: 5000,
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.submitting = false;
+      }
+    });
   }
 
   openSnackBar() {

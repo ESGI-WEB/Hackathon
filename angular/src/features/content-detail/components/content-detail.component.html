@@ -42,6 +42,21 @@
           </div>
         </div>
       </div>
+
+      <div class="add-comment">
+        <div class="comment-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Ajouter un commentaire</mat-label>
+            <textarea matInput [formControl]="commentControl"></textarea>
+            <mat-error>
+              <ng-container *ngTemplateOutlet="errorDisplay; context: {errors: commentControl.errors}"></ng-container>
+            </mat-error>
+          </mat-form-field>
+          <button mat-mini-fab color="primary" [disabled]="commentControl.invalid || submitting" (click)="onSubmit()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </article>
@@ -78,4 +93,10 @@
       <div [innerHTML]="media.description | safeHtml"></div>
     </div>
   </ng-container>
+</ng-template>
+
+<ng-template #errorDisplay let-errors="errors">
+  <span *ngIf="errors?.required">Ce champ est requis</span>
+  <span *ngIf="errors?.minlength">Ce champ doit contenir au moins {{errors?.minlength.requiredLength}} caractères</span>
+  <span *ngIf="errors?.maxlength">Ce champ doit contenir maximum {{errors?.maxlength.requiredLength}} caractères</span>
 </ng-template>

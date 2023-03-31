@@ -32,7 +32,7 @@
     </div>
     <div *ngIf="!loading" class="loader-theme">
       <div class="section-card">
-        <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1">
+        <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1" [routerLink]="['/content', content.id]">
           <div class="image-card">
             <img src="https://img.20mn.fr/xaXGIhosRzqELLhafBG-1Sk/1200x768_plusieurs-professionnels-de-sante-racontent-qu-ils-ont-a-de-nombreuses-reprises-etaient-filmes-ou-enregistres-a-leur-insu-par-des-patients-en-pleine-consultation" alt="image">
           </div>

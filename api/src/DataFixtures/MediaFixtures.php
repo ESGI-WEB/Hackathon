@@ -23,7 +23,7 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 60; $i++) {
             $product = (new Media())
                 ->setName($faker->text($faker->numberBetween(10, 50)))
-                ->setDescription($faker->randomHtml(4, 5))
+                ->setDescription($faker->paragraph($faker->numberBetween(5, 15)))
                 ->setContent($faker->randomElement($contents))
                 ->setType($type)
             ;

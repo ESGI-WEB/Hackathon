@@ -22,7 +22,35 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),
         new Get(),
-        new Post(),
+        new Post(
+            uriTemplate: '/opinions',
+            inputFormats: ['json'],
+            outputFormats: ['json'],
+            controller: 'App\Controller\CreateOpinionController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'text' => [
+                                        'type' => 'string',
+                                        'example' => 'Omnis itaque quidem porro quam.',
+                                    ],
+                                    'content' => [
+                                        'type' => 'integer',
+                                        'example' => 5,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'createContent',
+        ),
         new Put(),
         new Delete(),
         new Post(
