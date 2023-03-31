@@ -19,6 +19,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   public content: Content|null = null;
   public mainMedia: Media|null = null;
   public email_me: string;
+  public role: Array<string>;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +29,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     private authService: AuthService,
   ) {
     this.email_me = '';
+    this.role = [];
   }
 
   ngOnInit(): void {
@@ -54,7 +56,8 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
         }
       });
     const token = jwt_decode(this.authService.getToken()) as any;
-    this.email_me = token.email
+    this.email_me = token.email;
+    this.role = token.roles;
   }
 
   validateContent() {
