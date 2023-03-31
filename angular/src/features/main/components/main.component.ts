@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnChanges, ViewChild} from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay, filter } from 'rxjs/operators';
@@ -64,3 +64,4 @@ export class MainComponent implements AfterViewInit {
     this.token = this.authService.getDecodeToken();
   }
 }
+

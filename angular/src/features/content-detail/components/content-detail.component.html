@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="add-comment">
+      <div class="add-comment" *ngIf="content && content.status === 'validated'">
         <div class="comment-container" *ngIf="email_me">
           <mat-form-field appearance="outline">
             <mat-label>Ajouter un commentaire</mat-label>

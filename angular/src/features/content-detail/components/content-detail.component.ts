@@ -159,7 +159,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
 
   public addLike(): void {
     if(this.content != null){
-      const likeUser = this.content.likes.some((like) => like.email === this.email_me)
+      const likeUser = this.content.likes.some((like: any) => like.email === this.email_me)
       if(!likeUser){
         document.getElementById('goutte')?.classList.add('goutte-animation')
         setTimeout(() => {
