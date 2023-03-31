@@ -52,7 +52,8 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
-    this.email_me = jwt_decode(this.authService.getToken().email);
+    const token = jwt_decode(this.authService.getToken()) as any;
+    this.email_me = token.email
   }
 
   openSnackBar() {
