@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { HomeRoutingModule } from './home-routing.module';
+import { ThemeRoutingModule } from './theme-routing.module';
 
-import { HomeComponent } from './components/home.component';
+import { ThemeComponent } from './components/theme.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
@@ -11,13 +11,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    ThemeComponent,
   ],
   imports: [
-    HomeRoutingModule,
+    ThemeRoutingModule,
     MatTabsModule,
     MatCardModule,
     MatChipsModule,
@@ -26,7 +27,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ]
 })
-export class HomeModule { }
+export class ThemeModule { }
