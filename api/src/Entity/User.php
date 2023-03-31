@@ -53,11 +53,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $themes;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?string $lastname = null;
 
 
