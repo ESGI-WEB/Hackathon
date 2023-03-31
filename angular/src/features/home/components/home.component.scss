@@ -94,6 +94,7 @@
   flex-direction: column;
   gap: 15px;
   overflow: scroll;
+  padding-bottom: 44px;
 }
 
 mat-chip-set {
@@ -253,7 +254,7 @@ h1 {
 }
 
 .details-button {
-  position: absolute;
+  position: fixed;
   left:0;
   right:0;
   bottom: 15px;
