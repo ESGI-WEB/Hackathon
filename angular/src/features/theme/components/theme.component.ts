@@ -4,7 +4,6 @@ import {Content} from "../../../app/models/content";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {ThemeService} from "../../../app/services/theme.service";
 import {map} from "rxjs";
-import {Router} from "@angular/router";
 
 export interface Question {
   question: string;
@@ -14,12 +13,12 @@ export interface Question {
 }
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'app-theme',
+  templateUrl: './theme.component.html',
+  styleUrls: ['./theme.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
+export class ThemeComponent implements OnInit {
 
   private static readonly STATUS_VALIDATED = "validated";
   private static readonly THEME_NAISSANCE = "Naissance";
@@ -29,16 +28,16 @@ export class HomeComponent implements OnInit {
   public questions: Array<Question>
   public contents: Array<Content>
   public naissanceThemeId: string
-
+  public loading: boolean
   constructor(
     private formBuilder: FormBuilder,
     private contentService: ContentService,
-    private themeService: ThemeService,
-    private router: Router
+    private themeService: ThemeService
   ) {
     this.questions = [];
     this.contents = [];
     this.naissanceThemeId = '';
+    this.loading = true;
   }
 
   ngOnInit(): void {
@@ -81,42 +80,44 @@ export class HomeComponent implements OnInit {
     ]
   }
 
-  private _getContents(themeId: string): void {
+  private _getContents(themeId: string, name?: string): void {
     const searchObject = {
       name: "",
-      status: [HomeComponent.STATUS_VALIDATED],
+      status: [ThemeComponent.STATUS_VALIDATED],
       themes: [themeId]
     }
-    this.contentService.searchContents(searchObject).subscribe((contents) => {
-      this.contents = contents
+
+    if(name) {
+      searchObject.name = name
+    }
+
+    this.contentService.searchContents(searchObject).subscribe( {
+      next: (contents) => {
+        this.contents = contents
+      },
+        error: (error) => {
+        console.log(error);
+      },
+        complete: () => {
+        this.loading = false;
+      }
     })
   }
 
   public onSubmit(): void {
-    const searchObject = {
-      name: this.searchControl.value,
-      status: [HomeComponent.STATUS_VALIDATED],
-      themes: [this.naissanceThemeId]
-    }
-    this.contentService.searchContents(searchObject).subscribe((contents) => {
-      this.contents = contents
-    })
+    const name: string = this.searchControl.value
+    this._getContents(this.naissanceThemeId, name)
   }
 
   private _getNaissanceTheme(): void {
     this.themeService.getThemes()
       .pipe(
-        map((themes) => themes.filter((theme) => theme.name === HomeComponent.THEME_NAISSANCE)),
+        map((themes) => themes.filter((theme) => theme.name === ThemeComponent.THEME_NAISSANCE)),
       )
       .subscribe((theme) => {
         this.naissanceThemeId = theme[0].id.toString()
         this._getContents(this.naissanceThemeId)
       })
-  }
-
-  public openNaissancePage(): void {
-    console.log("cloc")
-    this.router.navigate(['theme']);
   }
 
 }

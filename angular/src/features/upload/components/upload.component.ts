@@ -21,6 +21,7 @@ import {Content, PostContent} from "../../../app/models/content";
 import {Media, PostMedia} from "../../../app/models/media";
 import {ContentService} from "../../../app/services/content.service";
 import {MediaService} from "../../../app/services/media.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -57,6 +58,7 @@ export class UploadComponent implements OnInit {
     private contentService: ContentService,
     private mediaService: MediaService,
     private dialog: MatDialog,
+    private router: Router,
   ) {
   }
 
@@ -90,18 +92,16 @@ export class UploadComponent implements OnInit {
 
   submit() {
     if (!this.form?.valid) {
+      this.form?.markAllAsTouched();
       return;
     }
 
     this.submitting = true;
 
-    const themeIds = this.form?.get('themes')?.value?.map((theme: Theme) => theme['@id']);
     const content: PostContent = {
       name: this.form?.get('name')?.value,
       description: this.form?.get('description')?.value,
-      status: 'pending',
-      author: '/users/5',
-      themes: themeIds,
+      themes: this.form?.get('themes')?.value?.map((theme: Theme) => theme.id),
     }
 
     const medias: PostMedia[] = [];
@@ -142,7 +142,7 @@ export class UploadComponent implements OnInit {
 
     zip(...subMedias).subscribe({
       next: (medias: Media[]) => {
-        console.log('done');
+        this.router.navigate(['/content', content.id]);
       }
     });
   }
@@ -202,7 +202,12 @@ export function fileValidator(type: Typemedia): ValidatorFn {
     const value = control.value;
 
     if (!value && type.slug !== 'text') {
-      return {fileRequired: true};
+      return { required: true };
+    }
+
+    const maxFileSize = 2 * 1024 * 1024; // 2MB
+    if (value instanceof File && value.size > maxFileSize) {
+      return { maxFileSize: { maxSize: maxFileSize,} };
     }
 
     return null;

@@ -44,7 +44,7 @@ final class CreateMediaObjectAction extends AbstractController
         $mediaObject->setName(trim($request->request->get('name')));
 
         $description = $request->request->get('description');
-        $description = strip_tags(trim($description));
+        $description = htmlspecialchars(trim($description));
         $mediaObject->setDescription($description);
 
         $mediaObject->setContent($this->contentRepository->find($request->request->get('content')));
