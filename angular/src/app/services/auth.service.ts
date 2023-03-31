@@ -51,11 +51,13 @@ export class AuthService {
   }
 
   getToken() {
-    return JSON.parse(localStorage.getItem('currentUser') || '').token;
+    const currentUser = localStorage.getItem('currentUser');
+    return currentUser ? JSON.parse(currentUser).token : null;
   }
 
   getDecodeToken() {
-    const token = JSON.parse(localStorage.getItem('currentUser') || '').token;
+    const currentUser = localStorage.getItem('currentUser');
+    const token = currentUser ? JSON.parse(currentUser).token : null;
     return jwt_decode(token);
   }
 

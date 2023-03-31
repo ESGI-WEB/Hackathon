@@ -4,6 +4,7 @@ import {User} from "./user";
 import {Opinion} from "./opinion";
 
 export interface Content {
+  '@id': number;
   id: number;
   name: string;
   description: string;

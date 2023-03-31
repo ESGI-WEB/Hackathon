@@ -5,6 +5,9 @@ import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
 import {map} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl, Validators} from "@angular/forms";
+import {Opinion, PostOpinion} from "../../../app/models/opinion";
+import {OpinionService} from "../../../app/services/opinion.service";
 import {AuthService} from "../../../app/services/auth.service";
 import jwt_decode from 'jwt-decode';
 
@@ -16,17 +19,21 @@ import jwt_decode from 'jwt-decode';
 export class ContentDetailComponent implements OnInit, OnDestroy {
 
   public loading = true;
+  public submitting = false;
   public content: Content|null = null;
   public mainMedia: Media|null = null;
   public email_me: string;
+  public commentControl: FormControl;
 
   constructor(
     private route: ActivatedRoute,
     private contentService: ContentService,
+    private opinionService: OpinionService,
     private snackBar: MatSnackBar,
-    private router: Router,
+    public router: Router,
     private authService: AuthService,
   ) {
+    this.commentControl = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(5000)]);
     this.email_me = '';
   }
 
@@ -74,8 +81,10 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
-    const token = jwt_decode(this.authService.getToken()) as any;
-    this.email_me = token.email
+    if (this.authService.getToken()) {
+      const token = jwt_decode(this.authService.getToken()) as any;
+      this.email_me = token.email
+    }
   }
 
   rejectContent() {
@@ -89,6 +98,38 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.loading = false;
+      }
+    });
+  }
+
+  onSubmit() {
+    if (!this.commentControl.value || !this.content) {
+      this.commentControl.markAllAsTouched();
+      return;
+    }
+
+    this.submitting = true;
+    this.snackBar.open("Ajout en cours ...");
+
+    const opinion: PostOpinion = {
+      content: this.content.id,
+      text: this.commentControl.value,
+    }
+
+    this.opinionService.postOpinion(opinion).subscribe({
+      next: (opinion) => {
+        this.content?.opinions.push(opinion);
+        this.commentControl.reset();
+        this.snackBar.dismiss();
+        this.snackBar.open("Commentaire ajouté avec succes", "Ok", {
+          duration: 5000,
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.submitting = false;
       }
     });
   }
@@ -130,5 +171,9 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
         })
       }
     }
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
   }
 }

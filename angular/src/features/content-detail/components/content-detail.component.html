@@ -11,6 +11,14 @@
         <ng-container *ngTemplateOutlet="mediaTemplate; context: {media: mainMedia};"></ng-container>
       </div>
 
+      <div class="themes">
+        <mat-chip-set>
+          <mat-chip *ngFor="let theme of content.themes">
+            #{{theme.name}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
       <div class="content">
         <h1>{{ content.name }}</h1>
         <p>{{ content.description }}</p>
@@ -34,19 +42,37 @@
           </div>
         </div>
       </div>
+
+      <div class="add-comment">
+        <div class="comment-container" *ngIf="email_me">
+          <mat-form-field appearance="outline">
+            <mat-label>Ajouter un commentaire</mat-label>
+            <textarea matInput [formControl]="commentControl"></textarea>
+            <mat-error>
+              <ng-container *ngTemplateOutlet="errorDisplay; context: {errors: commentControl.errors}"></ng-container>
+            </mat-error>
+          </mat-form-field>
+          <button mat-mini-fab color="primary" [disabled]="commentControl.invalid || submitting" (click)="onSubmit()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+        <div *ngIf="!email_me" class="login-button">
+          <a mat-raised-button color="primary" (click)="goToLogin()">Se connecter pour commenter</a>
+        </div>
+      </div>
     </div>
   </section>
   <section>
     <div class="content">
       <h2>Commentaire</h2>
       <div class="comment-section" *ngIf="content">
-        <div *ngFor="let opinion of content.opinions" [ngClass]="this.email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
+        <div *ngFor="let opinion of content.opinions" [ngClass]="email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
           <div class="user">
             <div class="name">
               <div class="photo">{{opinion.author.lastname.slice(0,1).toUpperCase() + opinion.author.firstname.slice(0,1).toUpperCase()}}</div>
               <div class="firstname">{{opinion.author.lastname.toUpperCase() + " " + opinion.author.firstname}} :</div>
             </div>
-            <div [ngClass]="this.email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{this.getRole(opinion.author.roles)}}</div>
+            <div [ngClass]="email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{getRole(opinion.author.roles)}}</div>
           </div>
           <div class="comment">
             <p>{{opinion.text}}</p>
@@ -108,4 +134,10 @@
       <div [innerHTML]="media.description | safeHtml"></div>
     </div>
   </ng-container>
+</ng-template>
+
+<ng-template #errorDisplay let-errors="errors">
+  <span *ngIf="errors?.required">Ce champ est requis</span>
+  <span *ngIf="errors?.minlength">Ce champ doit contenir au moins {{errors?.minlength.requiredLength}} caractères</span>
+  <span *ngIf="errors?.maxlength">Ce champ doit contenir maximum {{errors?.maxlength.requiredLength}} caractères</span>
 </ng-template>

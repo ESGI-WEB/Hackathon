@@ -30,6 +30,11 @@ export class MainComponent implements AfterViewInit {
     this.token = '';
     this.router.navigate(['/login']);
   }
+
+  login() {
+    this.router.navigate(['/login']);
+  }
+
   ngAfterViewInit() {
     this.observer
       .observe(['(max-width: 800px)'])
