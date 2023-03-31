@@ -4,6 +4,7 @@ import {ContentService} from "../../../app/services/content.service";
 import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
 import {map} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-main',
@@ -18,7 +19,8 @@ export class ContentDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -36,6 +38,7 @@ export class ContentDetailComponent implements OnInit {
       .subscribe({
         next: (content) => {
           this.content = content;
+          this.openSnackBar();
         },
         error: (error) => {
           console.log(error);
@@ -44,5 +47,11 @@ export class ContentDetailComponent implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  openSnackBar() {
+    if (this.content?.status === 'pending') {
+      this.snackBar.open("Ce contenu est en attente de validation, afin d'être disponible pour tous", "Ok");
+    }
   }
 }
