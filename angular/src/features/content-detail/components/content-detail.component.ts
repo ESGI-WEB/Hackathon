@@ -5,6 +5,8 @@ import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
 import {map} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../../app/services/auth.service";
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-main',
@@ -16,12 +18,15 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   public loading = true;
   public content: Content|null = null;
   public mainMedia: Media|null = null;
+  public email_me: string;
 
   constructor(
     private route: ActivatedRoute,
     private contentService: ContentService,
     private snackBar: MatSnackBar,
+    private authService: AuthService,
   ) {
+    this.email_me = '';
   }
 
   ngOnInit(): void {
@@ -47,6 +52,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+    this.email_me = jwt_decode(this.authService.getToken().email);
   }
 
   openSnackBar() {
@@ -59,8 +65,11 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     this.snackBar.dismiss();
   }
 
-  public isClient(roles: Array<string>): boolean {
-    console.log(this.content)
-    return roles.includes('ROLE_MODERATOR')
+  public getRole(roles: Array<string>): string {
+    if(roles.includes('ROLE_MODERATOR')) {
+      return 'Pro'
+    } else {
+      return 'Client'
+    }
   }
 }
