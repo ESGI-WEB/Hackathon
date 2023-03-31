@@ -9,7 +9,7 @@ export interface Content {
   description: string;
   status: 'pending' | 'validated' | 'rejected';
   media: Media[];
-  likes: string[];
+  likes: User[];
   opinions: Opinion[];
   author: User;
   themes: Theme[];

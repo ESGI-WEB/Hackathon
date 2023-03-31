@@ -17,8 +17,8 @@
         <ng-container *ngIf="content.likes.length || content.opinions.length">
           <mat-divider></mat-divider>
           <div class="statistics">
-            <div *ngIf="content.likes.length > 0 && content.status === 'validated'" class="stat-icon">
-              <img src="assets/images/goutte.png" alt="goutte">
+            <div *ngIf="content.likes.length > 0 && content.status === 'validated'" (click)="addLike()" class="stat-icon">
+              <img id="goutte" src="assets/images/goutte.png" alt="goutte">
               <span>{{content.likes.length}}</span>
             </div>
             <div *ngIf="content.opinions.length > 0 && content.status === 'validated'" class="stat-icon">
