@@ -43,7 +43,7 @@
         <div *ngFor="let opinion of content.opinions" class="message message-me">
           <div class="user">
             <div class="name">
-              <div class="photo">{{content.author}}</div>
+              <div class="photo">{{opinion.author.lastName.slice(0,1) + opinion.author.firstName.slice(0,1)}}</div>
               <div class="firstname">MORIN Laurie :</div>
             </div>
             <div *ngIf="isClient(content.author.roles)" class="badge badge-me">Pro</div>

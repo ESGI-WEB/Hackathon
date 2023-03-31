@@ -1,6 +1,7 @@
 import {Theme} from "./theme";
 import {Media} from "./media";
 import {User} from "./user";
+import {Opinion} from "./opinion";
 
 export interface Content {
   id: number;
@@ -9,7 +10,7 @@ export interface Content {
   status: 'pending' | 'validated' | 'rejected';
   media: Media[];
   likes: string[];
-  opinions: string[];
+  opinions: Opinion[];
   author: User;
   themes: Theme[];
 }
