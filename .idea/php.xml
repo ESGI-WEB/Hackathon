@@ -265,6 +265,9 @@
       <path value="$PROJECT_DIR$/api/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/api/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/html-sanitizer" />
+      <path value="$PROJECT_DIR$/api/vendor/league/uri" />
+      <path value="$PROJECT_DIR$/api/vendor/league/uri-interfaces" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

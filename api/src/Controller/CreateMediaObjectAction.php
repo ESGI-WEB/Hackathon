@@ -10,10 +10,13 @@ use App\Services\MediaTypeServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use GuzzleHttp\Psr7\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+
 
 #[AsController]
 final class CreateMediaObjectAction extends AbstractController
@@ -28,8 +31,7 @@ final class CreateMediaObjectAction extends AbstractController
         ValidatorInterface $validator,
         ContentRepository $contentRepository,
         TypeMediaRepository $typeMediaRepository
-    )
-    {
+    ) {
         $this->mediaTypeService = $mediaTypeService;
         $this->validator = $validator;
         $this->contentRepository = $contentRepository;
@@ -43,8 +45,9 @@ final class CreateMediaObjectAction extends AbstractController
         $mediaObject = new Media();
         $mediaObject->setName(trim($request->request->get('name')));
 
-        $description = $request->request->get('description');
-        $description = htmlspecialchars(trim($description));
+        $sanitizer = $this->getConfiguredSanitizer();
+        $description = trim($request->request->get('description'));
+        $description = $sanitizer->sanitize($description);
         $mediaObject->setDescription($description);
 
         $mediaObject->setContent($this->contentRepository->find($request->request->get('content')));
@@ -58,15 +61,15 @@ final class CreateMediaObjectAction extends AbstractController
             $mediaObject->setType($this->typeMediaRepository->findOneBy(['slug' => 'text']));
         }
 
-        // TODO : add validation
-
         return $mediaObject;
     }
 
     private function uploadFile(Media &$mediaObject, $uploadedFile): void
     {
         if (!$uploadedFile->isValid()) {
-            throw new BadRequestHttpException(sprintf('File "%s" is not valid', $uploadedFile->getClientOriginalName()));
+            throw new BadRequestHttpException(
+                sprintf('File "%s" is not valid', $uploadedFile->getClientOriginalName())
+            );
         }
 
         // max file size is 2 MB
@@ -77,9 +80,48 @@ final class CreateMediaObjectAction extends AbstractController
         $extension = $uploadedFile->guessExtension();
         $type = $this->mediaTypeService->getMediaType($extension);
         if (!$type) {
-            throw new BadRequestHttpException(sprintf('File "%s" has an invalid extension', $uploadedFile->getClientOriginalName()));
+            throw new BadRequestHttpException(
+                sprintf('File "%s" has an invalid extension', $uploadedFile->getClientOriginalName())
+            );
         }
         $mediaObject->setType($type);
         $mediaObject->setFile($uploadedFile);
+    }
+
+    private function getConfiguredSanitizer(): HtmlSanitizer
+    {
+        $config = (new HtmlSanitizerConfig())
+            ->allowSafeElements();
+        $config = $config->allowAttribute(
+            'style',
+            [
+                'div',
+                'span',
+                'p',
+                'h1',
+                'h2',
+                'h3',
+                'h4',
+                'h5',
+                'h6',
+                'section',
+                'article',
+                'ul',
+                'ol',
+                'li',
+                'table',
+                'tr',
+                'td',
+                'th',
+                'thead',
+                'tbody',
+                'tfoot',
+                'strong',
+                'small',
+                'big'
+            ]
+        );
+
+        return new HtmlSanitizer($config);
     }
 }
