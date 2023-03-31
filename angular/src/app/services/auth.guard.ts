@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
 canActivate(
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot): boolean {
-  if (this.authService.isAuthenticate()) {
+  if (this.authService.tokenIsValid()) {
     this.router.navigate(['/accueil']);
     return false;
   } else {
@@ -44,7 +44,7 @@ export class UserisConnected implements CanActivate{
         previousUrl: state.url
       }
     };
-    if (!this.authService.isAuthenticate()) {
+    if (!this.authService.tokenIsValid()) {
       this.router.navigate(['/login'], {queryParams:{returnUrl:state.url}});
       return false;
     }

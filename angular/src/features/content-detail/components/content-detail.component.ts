@@ -24,6 +24,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   public mainMedia: Media|null = null;
   public email_me: string;
   public commentControl: FormControl;
+  public role: Array<string>;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   ) {
     this.commentControl = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(5000)]);
     this.email_me = '';
+    this.role = [];
   }
 
   ngOnInit(): void {
@@ -83,7 +85,8 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
       });
     if (this.authService.getToken()) {
       const token = jwt_decode(this.authService.getToken()) as any;
-      this.email_me = token.email
+      this.email_me = token.email;
+      this.role = token.roles;
     }
   }
 

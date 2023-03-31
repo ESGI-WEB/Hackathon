@@ -61,4 +61,13 @@ export class AuthService {
     return jwt_decode(token);
   }
 
+  tokenIsValid() {
+    const localStorageToken = localStorage.getItem('currentUser') || ''
+    const token = localStorageToken && JSON.parse(localStorageToken).token;
+    const current_time = new Date().getTime() / 1000;
+    const jwt = token && jwt_decode(token);
+
+    return jwt && jwt.exp > current_time
+  }
+
 }

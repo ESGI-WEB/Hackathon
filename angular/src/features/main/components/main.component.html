@@ -42,11 +42,17 @@
         </button>
       </div>
       <div>
-        <button mat-button class="menu-button" (click)="sidenav.toggle()" routerLink="/login">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="sidenav.toggle()"
+          routerLink="/login"
+          *ngIf="!!token"
+        >
           <mat-icon>person</mat-icon>
           <span>Compte</span>
         </button>
-        <button mat-button class="menu-button" (click)="logout();sidenav.toggle();">
+        <button mat-button class="menu-button" (click)="logout();sidenav.toggle();" *ngIf="!!token">
           <mat-icon>exit_to_app</mat-icon>
           <span>{{ token ? 'Déconnexion' : 'Connexion' }}</span>
         </button>

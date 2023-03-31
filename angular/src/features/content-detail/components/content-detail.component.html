@@ -62,7 +62,7 @@
       </div>
     </div>
   </section>
-  <section>
+  <section *ngIf="content && content.status === 'validated'">
     <div class="content">
       <h2>Commentaire</h2>
       <div class="comment-section" *ngIf="content">
@@ -83,7 +83,7 @@
   </section>
 </article>
 
-<div *ngIf="!loading && content" class="action-buttons">
+<div *ngIf="!loading && content && role.includes('ROLE_MODERATOR')" class="action-buttons">
   <button
     mat-raised-button
     color="primary"
