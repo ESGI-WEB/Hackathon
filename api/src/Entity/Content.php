@@ -19,7 +19,42 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(),
         new Get(),
-        new Post(),
+        new Post(
+            uriTemplate: '/content',
+            inputFormats: ['json'],
+            outputFormats: ['json'],
+            controller: 'App\Controller\CreateContentController',
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'name' => [
+                                        'type' => 'string',
+                                        'example' => 'Omnis itaque quidem porro quam.',
+                                    ],
+                                    'description' => [
+                                        'type' => 'string',
+                                        'example' => 'Omnis itaque quidem porro quam.',
+                                    ],
+                                    'themes' => [
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'string',
+                                            'example' => '1',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            deserialize: false,
+            name: 'createContent',
+        ),
         new Put(),
         new Delete(),
         new Post(
@@ -41,19 +76,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                         'type' => 'string',
                                         'example' => 'Omnis itaque quidem porro quam.',
                                     ],
-                                    'themes' => [
+                                    'description' => [
+                                        'type' => 'string',
+                                        'example' => 'Omnis itaque quidem porro quam.',
+                                    ],
+                                    'media' => [
                                         'type' => 'array',
                                         'items' => [
                                             'type' => 'string',
                                             'example' => '16',
                                         ],
                                     ],
-                                    'status' => [
+                                    'themes' => [
                                         'type' => 'array',
                                         'items' => [
                                             'type' => 'string',
-                                            'example' => 'validated',
-                                            'description' => 'validated, pending or refused',
+                                            'example' => '16',
                                         ],
                                     ],
                                 ],
@@ -91,6 +129,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
             deserialize: false,
             name: 'contentUnlike',
         ),
+        new Post(
+            uriTemplate: '/contents/{id}/validate',
+            controller: 'App\Controller\ValidateContentController',
+            openapiContext:[
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ]
+                ]
+            ],
+            deserialize: false,
+            name: 'validationContent',
+        ),
+        new Post(
+            uriTemplate: '/contents/{id}/reject',
+            controller: 'App\Controller\RejectContentController',
+            openapiContext:[
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [],
+                    ]
+                ]
+            ],
+            deserialize: false,
+            name: 'rejectContent',
+        ),
     ],
     normalizationContext: ['groups' => ['read:content']],
 )]
@@ -108,7 +172,7 @@ class Content
 
     #[ORM\Column(length: 20)]
     #[Groups(['read:content'])]
-    private ?string $status = null;
+    private ?Status $status = null;
 
     #[ORM\OneToMany(mappedBy: 'content', targetEntity: Media::class, orphanRemoval: true)]
     #[Groups(['read:content'])]
@@ -160,12 +224,12 @@ class Content
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?Status
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(Status $status): self
     {
         $this->status = $status;
 
@@ -280,7 +344,7 @@ class Content
     {
         if (!$this->themes->contains($theme)) {
             $this->themes[] = $theme;
-            $theme->addCOntent($this);
+            $theme->addContent($this);
         }
 
         return $this;
