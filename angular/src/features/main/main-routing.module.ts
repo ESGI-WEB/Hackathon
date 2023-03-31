@@ -32,8 +32,16 @@ const routes: Routes = [
         loadChildren: () => import('../../features/content-detail/content-detail.module').then(mod => mod.ContentDetailModule),
       },
       {
+        path: 'content-request-list',
+        loadChildren: () => import('../../features/contentRequest/content-request-list.module').then(mod => mod.ContentRequestListModule),
+      },
+      {
+        path: 'content-request/:id',
+        loadChildren: () => import('../../features/content-detail/content-detail.module').then(mod => mod.ContentDetailModule),
+      },
+      {
         path: '**', redirectTo: 'accueil'
-      }
+      },
     ]
   }
 ];

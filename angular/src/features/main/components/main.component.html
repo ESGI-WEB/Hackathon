@@ -30,6 +30,10 @@
           <mat-icon>add_circle_outline</mat-icon>
           <span>Ajouter un article</span>
         </button>
+        <button mat-button class="menu-button" (click)="sidenav.toggle()"  routerLink="/content-request-list">
+          <mat-icon>spellcheck</mat-icon>
+          <span>Contenu à valider</span>
+        </button>
       </div>
       <div>
         <button mat-button class="menu-button" (click)="sidenav.toggle()" routerLink="/login">
