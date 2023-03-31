@@ -51,7 +51,9 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
 
   openSnackBar() {
     if (this.content?.status === 'pending') {
-      this.snackBar.open("Ce contenu est en attente de validation, afin d'être disponible pour tous", "Ok");
+      this.snackBar.open("Ce contenu est en attente de validation, afin d'être disponible pour tous", "Ok", {
+        verticalPosition: 'top',
+      });
     }
   }
 
