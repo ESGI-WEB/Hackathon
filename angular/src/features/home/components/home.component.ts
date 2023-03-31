@@ -1,6 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ContentService} from "../../../app/services/content.service";
 import {Content} from "../../../app/models/content";
+import {FormBuilder, FormControl} from "@angular/forms";
+import {ThemeService} from "../../../app/services/theme.service";
+import {map} from "rxjs";
 
 export interface Question {
   question: string;
@@ -17,22 +20,31 @@ export interface Question {
 })
 export class HomeComponent implements OnInit {
 
+  private static readonly STATUS_VALIDATED = "validated";
+  private static readonly THEME_NAISSANCE = "Naissance";
+
+  searchControl = new FormControl();
+
   public questions: Array<Question>
   public contents: Array<Content>
+  public naissanceThemeId: string
 
   constructor(
-    private contentService: ContentService
+    private formBuilder: FormBuilder,
+    private contentService: ContentService,
+    private themeService: ThemeService
   ) {
     this.questions = [];
-    this.contents = []
+    this.contents = [];
+    this.naissanceThemeId = '';
   }
 
   ngOnInit(): void {
-    this._getContents()
+    this._getNaissanceTheme()
     this._setQuestions()
   }
 
-  private _setQuestions() {
+  private _setQuestions(): void {
     this.questions = [
       {
         question: "Bonjour, je viens d'avoir un enfant, comment cela se passe-t-il pour l'ajouter à la mutuelle ? Est-ce payant ?",
@@ -67,10 +79,37 @@ export class HomeComponent implements OnInit {
     ]
   }
 
-  private _getContents() {
-    this.contentService.getContents().subscribe((contents) => {
+  private _getContents(themeId: string): void {
+    const searchObject = {
+      name: "",
+      status: [HomeComponent.STATUS_VALIDATED],
+      themes: [themeId]
+    }
+    this.contentService.searchContents(searchObject).subscribe((contents) => {
       this.contents = contents
     })
+  }
+
+  public onSubmit(): void {
+    const searchObject = {
+      name: this.searchControl.value,
+      status: [HomeComponent.STATUS_VALIDATED],
+      themes: [this.naissanceThemeId]
+    }
+    this.contentService.searchContents(searchObject).subscribe((contents) => {
+      this.contents = contents
+    })
+  }
+
+  private _getNaissanceTheme(): void {
+    this.themeService.getThemes()
+      .pipe(
+        map((themes) => themes.filter((theme) => theme.name === HomeComponent.THEME_NAISSANCE)),
+      )
+      .subscribe((theme) => {
+        this.naissanceThemeId = theme[0].id.toString()
+        this._getContents(this.naissanceThemeId)
+      })
   }
 
 }

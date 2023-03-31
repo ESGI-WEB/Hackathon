@@ -2,7 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Content, PostContent} from "../models/content";
-import {Theme} from "../models/theme";
+
+export interface SearchContent {
+  name: string;
+  status: Array<string>;
+  themes: Array<string>;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +26,9 @@ export class ContentService {
         return response['hydra:member'];
       })
     );
+  }
+
+  searchContents(search: SearchContent): Observable<Content[]> {
+    return this.http.post<Content[]>('https://localhost/contents/search', search)
   }
 }

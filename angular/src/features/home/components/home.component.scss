@@ -83,7 +83,7 @@
 }
 
 .section-card {
-  height: calc(100vh - 215px);
+  height: calc(100vh - 255px);
   margin: 16px;
   display: flex;
   flex-direction: column;
@@ -223,3 +223,35 @@ p {
   font-size: 12px!important;
 }
 
+
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 12px auto;
+  width: 80%;
+
+  > div, .form-search {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.searchTerm {
+  width: 100%;
+  border: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: black;
+}
+
+.searchButton {
+  text-align: center;
+  border: none;
+  color: #75A3E3;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}

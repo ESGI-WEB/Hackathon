@@ -5,7 +5,7 @@
     </div>
     <div class="icon-title">
       <mat-icon>child_friendly</mat-icon>
-      <h1>Enfant</h1>
+      <h1>Naissance</h1>
     </div>
     <div class="hr hr2">
       <hr>
@@ -19,6 +19,14 @@
 
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
   <mat-tab label="Articles">
+    <div class="search">
+      <div>
+        <input [formControl]="searchControl" type="text" class="searchTerm" placeholder="Que voulez-vous rechercher ?">
+        <button type="submit" (click)="onSubmit()" class="searchButton">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
     <div class="section-card">
       <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1">
         <div class="image-card">

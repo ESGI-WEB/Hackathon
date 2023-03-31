@@ -7,6 +7,10 @@ import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import {CommonModule} from "@angular/common";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import {CommonModule} from "@angular/common";
     MatCardModule,
     MatChipsModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }
