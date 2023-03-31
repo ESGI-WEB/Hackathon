@@ -67,7 +67,7 @@
     </a>
     <div *ngSwitchCase="'text'">
       <h2>{{media.name}}</h2>
-      <div [innerHTML]="media.description"></div>
+      <div [innerHTML]="media.description | safeHtml"></div>
     </div>
   </ng-container>
 </ng-template>

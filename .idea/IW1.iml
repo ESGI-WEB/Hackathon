@@ -126,10 +126,13 @@
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/gedmo/doctrine-extensions" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/stof/doctrine-extensions-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/behat/transliterator" />
-      <excludeFolder url="file://$MODULE_DIR$/api/vendor/jms/metadata" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/polyfill-intl-idn" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/vich/uploader-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/jms/metadata" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/html-sanitizer" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/league/uri" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/league/uri-interfaces" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
