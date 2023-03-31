@@ -25,11 +25,11 @@
         <ng-container *ngIf="content.likes.length || content.opinions.length">
           <mat-divider></mat-divider>
           <div class="statistics">
-            <div *ngIf="content.likes.length > 0" class="stat-icon">
+            <div *ngIf="content.likes.length > 0 && content.status === 'validated'" class="stat-icon">
               <img src="assets/images/goutte.png" alt="goutte">
               <span>{{content.likes.length}}</span>
             </div>
-            <div *ngIf="content.opinions.length > 0" class="stat-icon">
+            <div *ngIf="content.opinions.length > 0 && content.status === 'validated'" class="stat-icon">
               <img src="assets/images/commentaire.png" alt="commentaire" class="commentary-icon">
               <span>{{content.opinions.length}}</span>
             </div>
@@ -59,7 +59,45 @@
       </div>
     </div>
   </section>
+  <section>
+    <div class="content">
+      <h2>Commentaire</h2>
+      <div class="comment-section" *ngIf="content">
+        <div *ngFor="let opinion of content.opinions" [ngClass]="this.email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
+          <div class="user">
+            <div class="name">
+              <div class="photo">{{opinion.author.lastname.slice(0,1).toUpperCase() + opinion.author.firstname.slice(0,1).toUpperCase()}}</div>
+              <div class="firstname">{{opinion.author.lastname.toUpperCase() + " " + opinion.author.firstname}} :</div>
+            </div>
+            <div [ngClass]="this.email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{this.getRole(opinion.author.roles)}}</div>
+          </div>
+          <div class="comment">
+            <p>{{opinion.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </article>
+
+<div *ngIf="!loading && content" class="action-buttons">
+  <button
+    mat-raised-button
+    color="primary"
+    class="action-button"
+    (click)="validateContent()"
+  >
+    Publier
+  </button>
+  <button
+    mat-raised-button
+    color="accent"
+    class="action-button"
+    (click)="rejectContent()"
+  >
+    Rejeter
+  </button>
+</div>
 
 <ng-template #mediaTemplate let-media="media">
   <ng-container [ngSwitch]="media.type.slug">

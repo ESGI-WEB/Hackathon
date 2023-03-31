@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ContentService} from "../../../app/services/content.service";
 import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
@@ -8,6 +8,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, Validators} from "@angular/forms";
 import {Opinion, PostOpinion} from "../../../app/models/opinion";
 import {OpinionService} from "../../../app/services/opinion.service";
+import {AuthService} from "../../../app/services/auth.service";
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +22,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   public submitting = false;
   public content: Content|null = null;
   public mainMedia: Media|null = null;
+  public email_me: string;
   public commentControl: FormControl;
 
   constructor(
@@ -27,8 +30,11 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private opinionService: OpinionService,
     private snackBar: MatSnackBar,
+    private router: Router,
+    private authService: AuthService,
   ) {
     this.commentControl = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(5000)]);
+    this.email_me = '';
   }
 
   ngOnInit(): void {
@@ -55,6 +61,38 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+    const token = jwt_decode(this.authService.getToken()) as any;
+    this.email_me = token.email
+  }
+
+  validateContent() {
+    this.contentService.validateContent(this.content?.id as number).subscribe({
+      next: (content) => {
+        this.content = content;
+        this.router.navigate(['/content-request-list']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  rejectContent() {
+    this.contentService.rejectContent(this.content?.id as number).subscribe({
+      next: (content) => {
+        this.content = content;
+        this.router.navigate(['/content-request-list']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
   }
 
   onSubmit() {
@@ -99,5 +137,13 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.snackBar.dismiss();
+  }
+
+  public getRole(roles: Array<string>): string {
+    if(roles.includes('ROLE_MODERATOR')) {
+      return 'Pro'
+    } else {
+      return 'Client'
+    }
   }
 }

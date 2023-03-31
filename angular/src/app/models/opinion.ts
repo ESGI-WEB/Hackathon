@@ -1,6 +1,8 @@
+import {User} from "./user";
+
 export interface Opinion {
   id: number;
-  author: string;
+  author: User;
   text: string;
   createdAt: string;
   likes: string[];

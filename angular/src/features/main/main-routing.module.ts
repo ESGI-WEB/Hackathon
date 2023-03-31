@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './components/main.component';
 import {AuthGuard, UserisConnected} from "../../app/services/auth.guard";
-import {ContentDetailComponent} from "../content-detail/components/content-detail.component";
+import {AuthModeratorGuard} from "../../app/services/auth-moderator.guard";
 
 const routes: Routes = [
   {
@@ -32,8 +32,18 @@ const routes: Routes = [
         loadChildren: () => import('../../features/content-detail/content-detail.module').then(mod => mod.ContentDetailModule),
       },
       {
+        path: 'content-request-list',
+        canActivate:[AuthModeratorGuard],
+        loadChildren: () => import('../../features/contentRequest/content-request-list.module').then(mod => mod.ContentRequestListModule),
+      },
+      {
+        path: 'content-request/:id',
+        canActivate:[AuthModeratorGuard],
+        loadChildren: () => import('../../features/content-detail/content-detail.module').then(mod => mod.ContentDetailModule),
+      },
+      {
         path: '**', redirectTo: 'accueil'
-      }
+      },
     ]
   }
 ];

@@ -1,0 +1,269 @@
+.mat-mdc-tab, .mat-mdc-tab-link {
+  background-color: #5E82B6;
+  border-radius: 0 20px 20px 0;
+  width: 100px;
+}
+
+.mat-mdc-tab:first-of-type{
+  border-radius: 20px 0 0 20px;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  width: 50px;
+  border-color: white;
+}
+
+.mdc-tab__text-label {
+  color: white!important;
+}
+
+.mat-mdc-tab.mdc-tab {
+  height: 30px!important;
+  padding-right: 14px;
+  padding-left: 14px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.card-articles {
+
+  .content-card {
+    padding: 5px 0 5px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    margin-right: 10px;
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  .image-card {
+    width: 130px;
+    position: relative;
+
+    > img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.card-questions {
+
+  font-size: 12px!important;
+
+  .content-card {
+    margin: 0 10px 0 10px;
+    padding: 5px 0 5px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .image-card {
+    height: 100%;
+    width: 80px;
+    position: relative;
+
+    > img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.section-card {
+  height: calc(100vh - 152px);
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: scroll;
+}
+
+mat-chip-set {
+  font-size: 10px!important;
+}
+
+.mat-mdc-chip {
+  height: 20px!important;
+  font-size: 10px!important;
+  border-radius: 10px!important;
+}
+
+.mdc-evolution-chip__text-label, .mat-mdc-chip-action-label {
+  color: #8696A9!important;
+  font-size: 10px!important;
+}
+
+.icon-image {
+  display: flex;
+}
+
+.goutte-commentaire {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: flex-end;
+  height: 100%;
+
+  > div {
+    height: 80%;
+    > img {
+      height: 100%;
+    }
+  }
+}
+
+.section-chips {
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-section {
+  padding: 10px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #FFEDEC;
+}
+
+h1 {
+  margin: 0!important;
+  color: #355070;
+}
+
+.pink-after {
+  width: 100vw;
+
+  > img {
+    width: 100%;
+  }
+  transform: translateY(-5px);
+}
+
+.mdc-evolution-chip-set .mdc-evolution-chip {
+  margin: 0 5px 5px 0!important;
+}
+
+.mdc-evolution-chip-set:first-of-type .mdc-evolution-chip:first-of-type {
+  margin: 0 5px 5px 10px!important;
+}
+
+.section-commentaire-goutte {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.number {
+  font-size: 12px;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 12px auto;
+  width: 80%;
+
+  > div, .form-search {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.searchTerm {
+  width: 100%;
+  border: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: black;
+}
+
+.searchButton {
+  text-align: center;
+  border: none;
+  color: #75A3E3;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.title-articles {
+  display: flex;
+  justify-content: center;
+  > p {
+    margin: 0;
+    font-size: 16px!important;
+    font-weight: bold;
+  }
+}
+
+.success-alert {
+  display: flex;
+  gap: 10px;
+  margin: 0 20px 20px;
+  background-color: #458E9D;
+  border-radius: 10px;
+  border: 1px solid #3B7A87;
+  color: #FFFFFF;
+  padding: 10px;
+
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 16px;
+    color: white;
+  }
+
+  > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.details-button {
+  position: absolute;
+  left:0;
+  right:0;
+  bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 180px;
+  font-size: 10px;
+  button {
+    width: 100%;
+    &.mat-primary {
+      background-color: #5D738D!important;
+      color: white;
+    }
+  }
+}
+
+h3 {
+  font-size: 14px!important;
+  margin-bottom: 5px!important;
+}

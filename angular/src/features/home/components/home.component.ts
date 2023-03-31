@@ -115,7 +115,6 @@ export class HomeComponent implements OnInit {
   }
 
   public openNaissancePage(): void {
-    console.log("cloc")
     this.router.navigate(['theme']);
   }
 

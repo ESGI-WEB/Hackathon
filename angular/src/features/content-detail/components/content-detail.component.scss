@@ -1,10 +1,23 @@
 :host {
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
   p {
     word-wrap: break-word;
   }
 
   .content-detail {
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     .centered {
       display: flex;
@@ -21,12 +34,92 @@
     .content {
       box-sizing: border-box;
       width: 100%;
-      padding: 32px;
+      padding: 16px;
       border: 1px solid #E1E5EA;
       border-radius: 16px;
       background-color: #fff;
       color: #000;
       position: relative;
+    }
+
+    .comment-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .comment p {
+        font-size: 12px;
+        margin: 0;
+      }
+
+      .message {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        padding: 10px;
+        gap: 8px;
+
+        &.message-me {
+          border: 1px solid #3B7A87;
+          margin-left: 10px;
+        }
+
+        &.message-other {
+          border: 1px solid #CC9200;
+          margin-right: 10px;
+        }
+
+        .user {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+
+          .badge {
+            border-radius: 4px;
+            padding: 0 5px 0 5px;
+            color: white;
+            font-size: 12px;
+
+            &.badge-me {
+              border: 1px solid #3B7A87;
+              background-color: #3B7A87;
+            }
+
+            &.badge-other {
+              border: 1px solid #CC9200;
+              background-color: #EBA800;
+            }
+
+          }
+
+          .name {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+
+            .firstname {
+              font-size: 12px;
+            }
+
+            .photo {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid white;
+              border-radius: 50%;
+              background-color: #91B5E9;
+              width: 25px;
+              height: 25px;
+              color: white;
+              font-size: 10px;
+            }
+
+          }
+
+        }
+
+      }
+
     }
 
     .stat-icon {
@@ -134,4 +227,26 @@
     }
 
   }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px;
+  > .mat-primary {
+    background-color: white;
+    color: #75A3E3;
+    border: 1px solid #75A3E3;
+  }
+
+  > .mat-accent {
+    background-color: white;
+    color: #E67377;
+    border: 1px solid #E67377;
+  }
+}
+
+.action-button {
+  width: 47%;
 }

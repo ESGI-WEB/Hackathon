@@ -1,5 +1,6 @@
 import {Theme} from "./theme";
 import {Media} from "./media";
+import {User} from "./user";
 import {Opinion} from "./opinion";
 
 export interface Content {
@@ -11,7 +12,7 @@ export interface Content {
   media: Media[];
   likes: string[];
   opinions: Opinion[];
-  author: string;
+  author: User;
   themes: Theme[];
 }
 
