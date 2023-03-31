@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Content, PostContent} from "../models/content";
+import {AuthService} from "./auth.service";
 
 export interface SearchContent {
   name: string;
@@ -14,12 +15,12 @@ export interface SearchContent {
 })
 export class ContentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   postContent(content: PostContent): Observable<Content> {
     return this.http.post<Content>('https://localhost/contents', content, {
       headers: {
-        'Authorization': 'Bearer TODO'
+        'Authorization': 'Bearer ' + this.authService.getToken()
       }
     });
   }

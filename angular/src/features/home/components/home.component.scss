@@ -94,6 +94,7 @@
   flex-direction: column;
   gap: 15px;
   overflow: scroll;
+  padding-bottom: 44px;
 }
 
 mat-chip-set {
@@ -228,6 +229,13 @@ h1 {
   border: 1px solid #3B7A87;
   color: #FFFFFF;
   padding: 10px;
+  justify-content: space-between;
+
+  .success-content {
+    display: flex;
+    gap: 10px;
+
+  }
 
   p {
     font-size: 12px;
@@ -246,7 +254,7 @@ h1 {
 }
 
 .details-button {
-  position: absolute;
+  position: fixed;
   left:0;
   right:0;
   bottom: 15px;

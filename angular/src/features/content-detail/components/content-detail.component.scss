@@ -9,6 +9,10 @@
     font-weight: normal;
   }
 
+  p {
+    word-wrap: break-word;
+  }
+
   .content-detail {
     padding: 16px;
     display: flex;

@@ -21,6 +21,7 @@ import {Content, PostContent} from "../../../app/models/content";
 import {Media, PostMedia} from "../../../app/models/media";
 import {ContentService} from "../../../app/services/content.service";
 import {MediaService} from "../../../app/services/media.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -57,6 +58,7 @@ export class UploadComponent implements OnInit {
     private contentService: ContentService,
     private mediaService: MediaService,
     private dialog: MatDialog,
+    private router: Router,
   ) {
   }
 
@@ -90,6 +92,7 @@ export class UploadComponent implements OnInit {
 
   submit() {
     if (!this.form?.valid) {
+      this.form?.markAllAsTouched();
       return;
     }
 
@@ -139,7 +142,7 @@ export class UploadComponent implements OnInit {
 
     zip(...subMedias).subscribe({
       next: (medias: Media[]) => {
-        console.log('done');
+        this.router.navigate(['/content', content.id]);
       }
     });
   }
@@ -149,7 +152,7 @@ export class UploadComponent implements OnInit {
     const control = this.form?.get('medias') as FormArray;
     control.push(fb.group({
       type: type, // used to display the right upload component
-      file: [null, [fileValidator(type), Validators.max(8388608)]],
+      file: [null, [fileValidator(type)]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10000)]],
     }));
@@ -199,12 +202,12 @@ export function fileValidator(type: Typemedia): ValidatorFn {
     const value = control.value;
 
     if (!value && type.slug !== 'text') {
-      return {fileRequired: true};
+      return { required: true };
     }
 
     const maxFileSize = 2 * 1024 * 1024; // 2MB
     if (value instanceof File && value.size > maxFileSize) {
-      return { fileMinSize: { maxSize: maxFileSize,} };
+      return { maxFileSize: { maxSize: maxFileSize,} };
     }
 
     return null;

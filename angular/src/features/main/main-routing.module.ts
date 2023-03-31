@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './components/main.component';
+import {AuthGuard, UserisConnected} from "../../app/services/auth.guard";
 import {ContentDetailComponent} from "../content-detail/components/content-detail.component";
 
 const routes: Routes = [
@@ -18,7 +19,13 @@ const routes: Routes = [
       },
       {
         path: 'upload',
+        canActivate:[UserisConnected],
         loadChildren: () => import('../../features/upload/upload.module').then(mod => mod.UploadModule),
+      },
+      {
+        path: 'login',
+        canActivate:[AuthGuard],
+        loadChildren: () => import('../../features/login/login.module').then(mod => mod.LoginModule),
       },
       {
         path: 'content/:id',
