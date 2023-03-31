@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: TypeMediaRepository::class)]
@@ -19,15 +20,18 @@ class TypeMedia
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups(['read:content'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[Groups(['read:content'])]
     private array $extensions = [];
 
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Media::class, orphanRemoval: true)]
     private Collection $media;
 
     #[ORM\Column(length: 30)]
+    #[Groups(['read:content'])]
     private ?string $slug = null;
 
     public function __construct()

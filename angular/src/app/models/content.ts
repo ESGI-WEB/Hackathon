@@ -1,11 +1,12 @@
 import {Theme} from "./theme";
+import {Media} from "./media";
 
 export interface Content {
   id: number;
   name: string;
   description: string;
-  status: 'pending' | 'validated' | 'refused';
-  media: string[];
+  status: 'pending' | 'validated' | 'rejected';
+  media: Media[];
   likes: string[];
   opinions: string[];
   author: string;
@@ -15,7 +16,5 @@ export interface Content {
 export interface PostContent {
   name: string;
   description: string;
-  status: 'pending' | 'validated' | 'refused';
-  author: string;
   themes: string[];
 }

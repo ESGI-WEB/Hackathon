@@ -81,7 +81,10 @@
     </section>
 
     <div class="submit-button">
-      <button mat-raised-button color="primary" (click)="submit()">Publier</button>
+      <button mat-raised-button color="primary" (click)="submit()" [disabled]="loading || submitting || !form.valid">
+        <span *ngIf="!submitting">Publier</span>
+        <span *ngIf="submitting">Enregistrement ...</span>
+      </button>
     </div>
   </div>
 </section>

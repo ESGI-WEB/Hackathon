@@ -95,13 +95,10 @@ export class UploadComponent implements OnInit {
 
     this.submitting = true;
 
-    const themeIds = this.form?.get('themes')?.value?.map((theme: Theme) => theme['@id']);
     const content: PostContent = {
       name: this.form?.get('name')?.value,
       description: this.form?.get('description')?.value,
-      status: 'pending',
-      author: '/users/5',
-      themes: themeIds,
+      themes: this.form?.get('themes')?.value?.map((theme: Theme) => theme.id),
     }
 
     const medias: PostMedia[] = [];
@@ -152,7 +149,7 @@ export class UploadComponent implements OnInit {
     const control = this.form?.get('medias') as FormArray;
     control.push(fb.group({
       type: type, // used to display the right upload component
-      file: [null, [fileValidator(type)]],
+      file: [null, [fileValidator(type), Validators.max(8388608)]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10000)]],
     }));
@@ -203,6 +200,11 @@ export function fileValidator(type: Typemedia): ValidatorFn {
 
     if (!value && type.slug !== 'text') {
       return {fileRequired: true};
+    }
+
+    const maxFileSize = 2 * 1024 * 1024; // 2MB
+    if (value instanceof File && value.size > maxFileSize) {
+      return { fileMinSize: { maxSize: maxFileSize,} };
     }
 
     return null;

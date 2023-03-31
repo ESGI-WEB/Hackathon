@@ -1,4 +1,4 @@
-:host{
+:host {
   .add-content-section {
     padding: 16px;
   }
@@ -26,7 +26,6 @@
     padding: 32px;
     border: 1px solid #E1E5EA;
     border-radius: 16px;
-    transition: all 0.3s ease;
     background-color: #fff;
     color: #000;
     margin-bottom: 16px;
@@ -52,6 +51,7 @@
         font-size: 24px;
         color: #75A3E3;
       }
+
       span {
         color: #355070;
       }
@@ -83,15 +83,16 @@
     }
 
   }
+
   button {
     &.mat-primary {
       background-color: #5D738D;
       color: white;
     }
   }
+
   .submit-button {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }
-
