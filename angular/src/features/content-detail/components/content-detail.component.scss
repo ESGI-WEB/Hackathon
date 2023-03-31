@@ -210,12 +210,17 @@
     width: 100%;
     border: 1px solid #E1E5EA;
     border-radius: 16px;
-    padding: 22px 8px 8px 8px;
+    padding: 8px;
     margin-top: 8px;
+
+    .login-button {
+      text-align: center;
+    }
 
     .comment-container {
       display: flex;
       justify-content: center;
+      margin-top: 22px;
 
       mat-form-field {
         width: 80%;

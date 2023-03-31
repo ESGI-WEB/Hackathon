@@ -30,7 +30,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private opinionService: OpinionService,
     private snackBar: MatSnackBar,
-    private router: Router,
+    public router: Router,
     private authService: AuthService,
   ) {
     this.commentControl = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(5000)]);
@@ -38,7 +38,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    console.log(this.route)
     const id = this.route.snapshot.paramMap.get('id');
     this.contentService.getContent(Number(id))
       .pipe(map((content) => {
@@ -61,8 +61,10 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
-    const token = jwt_decode(this.authService.getToken()) as any;
-    this.email_me = token.email
+    if (this.authService.getToken()) {
+      const token = jwt_decode(this.authService.getToken()) as any;
+      this.email_me = token.email
+    }
   }
 
   validateContent() {
@@ -145,5 +147,9 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     } else {
       return 'Client'
     }
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
   }
 }

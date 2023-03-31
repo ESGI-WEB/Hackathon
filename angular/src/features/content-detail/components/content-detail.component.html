@@ -44,7 +44,7 @@
       </div>
 
       <div class="add-comment">
-        <div class="comment-container">
+        <div class="comment-container" *ngIf="email_me">
           <mat-form-field appearance="outline">
             <mat-label>Ajouter un commentaire</mat-label>
             <textarea matInput [formControl]="commentControl"></textarea>
@@ -56,6 +56,9 @@
             <mat-icon>send</mat-icon>
           </button>
         </div>
+        <div *ngIf="!email_me" class="login-button">
+          <a mat-raised-button color="primary" (click)="goToLogin()">Se connecter pour commenter</a>
+        </div>
       </div>
     </div>
   </section>
@@ -63,13 +66,13 @@
     <div class="content">
       <h2>Commentaire</h2>
       <div class="comment-section" *ngIf="content">
-        <div *ngFor="let opinion of content.opinions" [ngClass]="this.email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
+        <div *ngFor="let opinion of content.opinions" [ngClass]="email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
           <div class="user">
             <div class="name">
               <div class="photo">{{opinion.author.lastname.slice(0,1).toUpperCase() + opinion.author.firstname.slice(0,1).toUpperCase()}}</div>
               <div class="firstname">{{opinion.author.lastname.toUpperCase() + " " + opinion.author.firstname}} :</div>
             </div>
-            <div [ngClass]="this.email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{this.getRole(opinion.author.roles)}}</div>
+            <div [ngClass]="email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{getRole(opinion.author.roles)}}</div>
           </div>
           <div class="comment">
             <p>{{opinion.text}}</p>

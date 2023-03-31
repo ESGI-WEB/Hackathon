@@ -80,32 +80,33 @@ use Symfony\Component\Validator\Constraints as Assert;
             name: 'opinionUnlike',
         )
     ],
+    normalizationContext: ['groups' => ['read:opinion']],
 )]
 class Opinion
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?User $author = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Timestampable(on: 'create')]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 100)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private ?string $text = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedOpinions')]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'read:opinion'])]
     private Collection $likes;
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]
