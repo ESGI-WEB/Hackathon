@@ -12,7 +12,11 @@ export class ContentService {
   constructor(private http: HttpClient) { }
 
   postContent(content: PostContent): Observable<Content> {
-    return this.http.post<Content>('https://localhost/contents', content);
+    return this.http.post<Content>('https://localhost/contents', content, {
+      headers: {
+        'Authorization': 'Bearer TODO'
+      }
+    });
   }
 
   getContents(): Observable<Content[]> {

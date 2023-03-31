@@ -16,7 +16,5 @@ export interface Content {
 export interface PostContent {
   name: string;
   description: string;
-  status: 'pending' | 'validated' | 'rejected';
-  author: string;
   themes: string[];
 }

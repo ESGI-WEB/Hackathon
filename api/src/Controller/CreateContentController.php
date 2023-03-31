@@ -8,6 +8,7 @@ use App\Repository\ThemeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class CreateContentController extends AbstractController
 {
@@ -34,6 +35,10 @@ class CreateContentController extends AbstractController
         $content->setDescription($description);
 
         $user = $this->getUser();
+        if (!$user) {
+            throw new AuthenticationException('You must be logged in to create a content');
+        }
+
         $content->setAuthor($user);
 
         if ($this->isGranted('ROLE_MODERATOR')) {

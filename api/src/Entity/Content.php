@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(),
         new Get(),
         new Post(
-            uriTemplate: '/content',
+            uriTemplate: '/contents',
             inputFormats: ['json'],
             outputFormats: ['json'],
             controller: 'App\Controller\CreateContentController',

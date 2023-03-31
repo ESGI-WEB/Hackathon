@@ -95,13 +95,10 @@ export class UploadComponent implements OnInit {
 
     this.submitting = true;
 
-    const themeIds = this.form?.get('themes')?.value?.map((theme: Theme) => theme['@id']);
     const content: PostContent = {
       name: this.form?.get('name')?.value,
       description: this.form?.get('description')?.value,
-      status: 'pending',
-      author: '/users/5',
-      themes: themeIds,
+      themes: this.form?.get('themes')?.value?.map((theme: Theme) => theme.id),
     }
 
     const medias: PostMedia[] = [];
