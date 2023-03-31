@@ -202,3 +202,25 @@
     }
   }
 }
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px;
+  > .mat-primary {
+    background-color: white;
+    color: #75A3E3;
+    border: 1px solid #75A3E3;
+  }
+
+  > .mat-accent {
+    background-color: white;
+    color: #E67377;
+    border: 1px solid #E67377;
+  }
+}
+
+.action-button {
+  width: 47%;
+}

@@ -76,15 +76,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                         'type' => 'string',
                                         'example' => 'Omnis itaque quidem porro quam.',
                                     ],
-                                    'description' => [
-                                        'type' => 'string',
-                                        'example' => 'Omnis itaque quidem porro quam.',
-                                    ],
-                                    'media' => [
+                                    'status' => [
                                         'type' => 'array',
                                         'items' => [
                                             'type' => 'string',
-                                            'example' => '16',
+                                            'example' => 'pending',
                                         ],
                                     ],
                                     'themes' => [

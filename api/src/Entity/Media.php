@@ -68,32 +68,32 @@ class Media
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 100)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?string $description = null;
 
     #[Assert\File(
         maxSize: '2M',
     )]
     #[Vich\UploadableField(mapping: "media_object", fileNameProperty: "path")]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     public ?File $file = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?string $path = null;
 
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     public ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'media')]
@@ -102,7 +102,7 @@ class Media
 
     #[ORM\ManyToOne(inversedBy: 'media')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?TypeMedia $type = null;
 
     public function getId(): ?int

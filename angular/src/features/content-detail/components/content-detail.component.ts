@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ContentService} from "../../../app/services/content.service";
 import {Content} from "../../../app/models/content";
 import {Media} from "../../../app/models/media";
@@ -24,6 +24,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private contentService: ContentService,
     private snackBar: MatSnackBar,
+    private router: Router,
     private authService: AuthService,
   ) {
     this.email_me = '';
@@ -54,6 +55,36 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
       });
     const token = jwt_decode(this.authService.getToken()) as any;
     this.email_me = token.email
+  }
+
+  validateContent() {
+    this.contentService.validateContent(this.content?.id as number).subscribe({
+      next: (content) => {
+        this.content = content;
+        this.router.navigate(['/content-request-list']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  rejectContent() {
+    this.contentService.rejectContent(this.content?.id as number).subscribe({
+      next: (content) => {
+        this.content = content;
+        this.router.navigate(['/content-request-list']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
   }
 
   openSnackBar() {
