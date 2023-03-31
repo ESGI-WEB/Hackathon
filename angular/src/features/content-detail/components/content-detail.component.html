@@ -36,6 +36,25 @@
       </div>
     </div>
   </section>
+  <section>
+    <div class="content">
+      <h2>Commentaire</h2>
+      <div class="comment-section" *ngIf="content">
+        <div *ngFor="let opinion of content.opinions" [ngClass]="this.email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
+          <div class="user">
+            <div class="name">
+              <div class="photo">{{opinion.author.lastname.slice(0,1).toUpperCase() + opinion.author.firstname.slice(0,1).toUpperCase()}}</div>
+              <div class="firstname">{{opinion.author.lastname.toUpperCase() + " " + opinion.author.firstname}} :</div>
+            </div>
+            <div [ngClass]="this.email_me === opinion.author.email ? 'badge-me' : 'badge-other'" class="badge">{{this.getRole(opinion.author.roles)}}</div>
+          </div>
+          <div class="comment">
+            <p>{{opinion.text}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </article>
 
 <ng-template #mediaTemplate let-media="media">
