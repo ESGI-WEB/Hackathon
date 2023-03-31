@@ -49,18 +49,24 @@ export class LoginComponent {
     this.submitted = true;
 
     // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
     this.loading = true;
     this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
-      .subscribe(
-        data => {
+      .subscribe({
+        next: (data) => {
           this.router.navigate([this.returnUrl]);
         },
-      error => {
+        error: (error) => {
           this.openSnackBar("Les identifiants sont incorrects");
-      }
-        );
-    this.loginForm.reset();
+          this.loginForm.reset();
+          this.loading = false;
+        },
+      });
+
   }
 
 
