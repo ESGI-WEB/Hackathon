@@ -15,7 +15,8 @@ export interface SearchContent {
 })
 export class ContentService {
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {
+  }
 
   postContent(content: PostContent): Observable<Content> {
     return this.http.post<Content>('https://localhost/contents', content, {
@@ -39,5 +40,13 @@ export class ContentService {
 
   searchContents(search: SearchContent): Observable<Content[]> {
     return this.http.post<Content[]>('https://localhost/contents/search', search)
+  }
+
+  validateContent(id: number): Observable<Content> {
+    return this.http.post<Content>(`https://localhost/contents/${id}/validate`, {}, {});
+  }
+
+  rejectContent(id: number): Observable<Content> {
+    return this.http.post<Content>(`https://localhost/contents/${id}/reject`, {}, {});
   }
 }

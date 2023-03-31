@@ -1,0 +1,26 @@
+<div class="title-section">
+  <h1>Contenu à valider</h1>
+</div>
+<div class="pink-after">
+  <img src="assets/images/pink-after.svg">
+</div>
+
+<div class="section-card">
+  <div *ngFor="let content of requestContents" class="card card-articles mat-elevation-z1" [routerLink]="['/content-request', content.id]">
+    <div class="image-card">
+      <img src="https://img.20mn.fr/xaXGIhosRzqELLhafBG-1Sk/1200x768_plusieurs-professionnels-de-sante-racontent-qu-ils-ont-a-de-nombreuses-reprises-etaient-filmes-ou-enregistres-a-leur-insu-par-des-patients-en-pleine-consultation" alt="image">
+    </div>
+    <div class="content-card">
+      <h3>{{content.name}}</h3>
+      <p>{{content.description}}</p>
+      <div class="section-chips">
+        <mat-chip-set>
+          <mat-chip *ngFor="let theme of content.themes">
+            #{{theme.name}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </div>
+</div>
+
