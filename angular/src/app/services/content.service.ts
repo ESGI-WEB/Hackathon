@@ -2,7 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Content, PostContent} from "../models/content";
-import {Theme} from "../models/theme";
+
+export interface SearchContent {
+  name: string;
+  status: Array<string>;
+  themes: Array<string>;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +34,9 @@ export class ContentService {
 
   getContent(id: number): Observable<Content> {
     return this.http.get<Content>(`https://localhost/contents/${id}`);
+  }
+
+  searchContents(search: SearchContent): Observable<Content[]> {
+    return this.http.post<Content[]>('https://localhost/contents/search', search)
   }
 }

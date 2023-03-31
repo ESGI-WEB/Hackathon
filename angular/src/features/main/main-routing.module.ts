@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: () => import('../../features/home/home.module').then(mod => mod.HomeModule),
       },
       {
+        path: 'theme',
+        loadChildren: () => import('../../features/theme/theme.module').then(mod => mod.ThemeModule),
+      },
+      {
         path: 'upload',
         loadChildren: () => import('../../features/upload/upload.module').then(mod => mod.UploadModule),
       },
