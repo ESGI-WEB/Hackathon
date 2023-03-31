@@ -1,93 +1,65 @@
-<div class="event">
-  <div class="title-section">
-    <div class="hr hr1">
-      <hr>
-    </div>
-    <div class="icon-title">
-      <mat-icon>child_friendly</mat-icon>
-      <h1>Naissance</h1>
-    </div>
-    <div class="hr hr2">
-      <hr>
-    </div>
-  </div>
-  <p>Mon enfant vient de naître</p>
+<div class="title-section">
+  <h1>Mon profil</h1>
 </div>
 <div class="pink-after">
   <img src="assets/images/pink-after.svg">
 </div>
 
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <mat-tab label="Articles">
-    <div class="search">
-      <div>
-        <input [formControl]="searchControl" type="text" class="searchTerm" placeholder="Que voulez-vous rechercher ?">
-        <button type="submit" (click)="onSubmit()" class="searchButton">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
+<div class="success-alert">
+  <div>
+    <mat-icon>check_circle</mat-icon>
+  </div>
+  <div>
+    <div>
+      <h1>Validé</h1>
     </div>
-    <div class="section-card">
-      <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1">
-        <div class="image-card">
-          <img src="https://img.20mn.fr/xaXGIhosRzqELLhafBG-1Sk/1200x768_plusieurs-professionnels-de-sante-racontent-qu-ils-ont-a-de-nombreuses-reprises-etaient-filmes-ou-enregistres-a-leur-insu-par-des-patients-en-pleine-consultation" alt="image">
-        </div>
-        <div class="content-card">
-          <h3>{{content.name}}</h3>
-          <p>{{content.description}}</p>
-          <div class="section-chips">
-            <mat-chip-set>
-              <mat-chip *ngFor="let theme of content.themes">
-                #{{theme.name}}
-              </mat-chip>
-            </mat-chip-set>
-            <div class="section-commentaire-goutte">
-              <div *ngIf="content.likes.length > 0"  class="goutte-commentaire">
-                <div>
-                  <img src="assets/images/goutte.png" alt="goutte">
-                </div>
-                <div class="number">{{content.likes}}</div>
-              </div>
-              <div *ngIf="content.opinions.length > 0"  class="goutte-commentaire">
-                <div>
-                  <img src="assets/images/commentaire.png" alt="goutte">
-                </div>
-                <div class="number">{{content.opinions.length}}</div>
-              </div>
+    <div>
+      <p>Vous venez de déclarer la naissance de votre enfant !</p>
+    </div>
+  </div>
+  <div>
+    <mat-icon>close</mat-icon>
+  </div>
+</div>
+
+<div class="title-articles">
+  <p>Des articles qui pourraient vous intéréssés</p>
+</div>
+<div class="section-card-home">
+  <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1">
+    <div class="image-card">
+      <img src="https://img.20mn.fr/xaXGIhosRzqELLhafBG-1Sk/1200x768_plusieurs-professionnels-de-sante-racontent-qu-ils-ont-a-de-nombreuses-reprises-etaient-filmes-ou-enregistres-a-leur-insu-par-des-patients-en-pleine-consultation" alt="image">
+    </div>
+    <div class="content-card">
+      <h3>{{content.name}}</h3>
+      <p>{{content.description}}</p>
+      <div class="section-chips">
+        <mat-chip-set>
+          <mat-chip *ngFor="let theme of content.themes">
+            #{{theme.name}}
+          </mat-chip>
+        </mat-chip-set>
+        <div class="section-commentaire-goutte">
+          <div *ngIf="content.likes.length > 0"  class="goutte-commentaire">
+            <div>
+              <img src="assets/images/goutte.png" alt="goutte">
             </div>
+            <div class="number">{{content.likes}}</div>
+          </div>
+          <div *ngIf="content.opinions.length > 0"  class="goutte-commentaire">
+            <div>
+              <img src="assets/images/commentaire.png" alt="goutte">
+            </div>
+            <div class="number">{{content.opinions.length}}</div>
           </div>
         </div>
       </div>
     </div>
-  </mat-tab>
-  <mat-tab label="Questions">
-    <div class="section-card">
-      <div *ngFor="let question of questions" class="card card-questions mat-elevation-z1">
-        <div class="content-card">
-          <p>{{question.question}}</p>
-          <div class="section-chips">
-            <mat-chip-set>
-              <mat-chip *ngFor="let chip of question.themes">
-                #{{chip}}
-              </mat-chip>
-            </mat-chip-set>
-            <div class="section-commentaire-goutte">
-              <div class="goutte-commentaire">
-                <div>
-                  <img src="assets/images/goutte.png" alt="goutte">
-                </div>
-                <div class="number">{{question.opinion}}</div>
-              </div>
-              <div class="goutte-commentaire">
-                <div>
-                  <img src="assets/images/commentaire.png" alt="goutte">
-                </div>
-                <div class="number">{{question.comment}}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+  </div>
+</div>
+<div class="details-button">
+  <button mat-raised-button (click)="openNaissancePage()" color="primary">
+    <mat-icon>add_circle_outline</mat-icon>
+    Plus d'articles
+  </button>
+</div>

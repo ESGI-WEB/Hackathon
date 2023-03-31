@@ -1,4 +1,4 @@
-.mat-mdc-tab, .mat-mdc-tab-link {
+mat-mdc-tab, .mat-mdc-tab-link {
   background-color: #5E82B6;
   border-radius: 0 20px 20px 0;
   width: 100px;
@@ -40,10 +40,6 @@
     justify-content: space-between;
     width: 100%;
     margin-right: 10px;
-
-    p {
-      font-size: 12px;
-    }
   }
 
   .image-card {
@@ -86,8 +82,8 @@
   }
 }
 
-.section-card-home {
-  height: calc(100vh - 288px);
+.section-card {
+  height: calc(100vh - 275px);
   margin: 16px;
   display: flex;
   flex-direction: column;
@@ -96,7 +92,6 @@
 }
 
 mat-chip-set {
-  font-size: 10px!important;
 }
 
 .mat-mdc-chip {
@@ -141,7 +136,6 @@ mat-chip-set {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: #FFEDEC;
 }
 
 h1 {
@@ -176,6 +170,60 @@ h1 {
   font-size: 12px;
 }
 
+.hr {
+  width: 100%;
+}
+
+.hr1 {
+  > hr {
+    background-color: #75A3E3;
+  }
+}
+
+hr {
+  border: none;
+  height: 2px;
+}
+
+.hr2 {
+  > hr {
+    background-color: #E1E5EA;
+  }
+}
+
+.event {
+  background-color: #FFEDEC;
+  display: flex;
+  flex-direction: column;
+
+  > p {
+    color: #8696A9;
+    text-align: center;
+  }
+}
+
+.icon-title {
+  display: flex;
+  gap: 5px;
+}
+
+.icon-title mat-icon {
+  background-color: #75A3E3;
+  padding: 3px;
+  color: white;
+  border-radius: 50%;
+}
+
+h3 {
+  font-size: 14px!important;
+  margin-bottom: 5px!important;
+}
+
+p {
+  font-size: 12px!important;
+}
+
+
 .search {
   display: flex;
   justify-content: center;
@@ -208,61 +256,10 @@ h1 {
   font-size: 20px;
 }
 
-.title-articles {
-  display: flex;
-  justify-content: center;
-  > p {
-    margin: 0;
-    font-size: 16px!important;
-    font-weight: bold;
+.loader-theme {
+  mat-spinner {
+    width: 48px !important;
+    height: 48px !important;
+    margin: auto;
   }
-}
-
-.success-alert {
-  display: flex;
-  gap: 10px;
-  margin: 0 20px 20px;
-  background-color: #458E9D;
-  border-radius: 10px;
-  border: 1px solid #3B7A87;
-  color: #FFFFFF;
-  padding: 10px;
-
-  p {
-    font-size: 12px;
-    margin: 0;
-  }
-
-  h1 {
-    font-size: 16px;
-    color: white;
-  }
-
-  > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.details-button {
-  position: absolute;
-  left:0;
-  right:0;
-  bottom: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 180px;
-  font-size: 10px;
-  button {
-    width: 100%;
-    &.mat-primary {
-      background-color: #5D738D!important;
-      color: white;
-    }
-  }
-}
-
-h3 {
-  font-size: 14px!important;
-  margin-bottom: 5px!important;
 }
