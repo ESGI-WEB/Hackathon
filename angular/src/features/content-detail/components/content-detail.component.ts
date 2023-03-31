@@ -27,8 +27,10 @@ export class ContentDetailComponent implements OnInit {
     this.contentService.getContent(Number(id))
       .pipe(map((content) => {
         const mainMediaIndex = content.media.findIndex((media) => ['image', 'video'].includes(media.type.slug));
-        this.mainMedia = content.media[mainMediaIndex];
-        content.media.splice(mainMediaIndex, 1);
+        if (mainMediaIndex >= 0) {
+          this.mainMedia = content.media[mainMediaIndex];
+          content.media.splice(mainMediaIndex, 1);
+        }
         return content;
       }))
       .subscribe({
