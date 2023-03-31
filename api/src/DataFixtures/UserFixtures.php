@@ -18,6 +18,8 @@ class UserFixtures extends Fixture
             ->setEmail('user@user.fr')
             ->setRoles(['ROLE_USER'])
             ->setPassword($pwd)
+            ->setFirstname('John')
+            ->setLastname('Doe')
         ;
         $manager->persist($user);
 
@@ -25,6 +27,8 @@ class UserFixtures extends Fixture
             ->setEmail('admin@user.fr')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($pwd)
+            ->setFirstname('Jane')
+            ->setLastname('Laouf')
         ;
         $manager->persist($admin);
 
@@ -32,6 +36,8 @@ class UserFixtures extends Fixture
             ->setEmail('moderator@user.fr')
             ->setRoles(['ROLE_MODERATOR'])
             ->setPassword($pwd)
+            ->setFirstname('Jean')
+            ->setLastname('Pouille')
         ;
         $manager->persist($moderator);
 
