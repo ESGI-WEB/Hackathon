@@ -38,8 +38,28 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.route)
     const id = this.route.snapshot.paramMap.get('id');
+    if(id != null){
+      this._getContent(Number(id))
+    }
+  }
+
+  validateContent() {
+    this.contentService.validateContent(this.content?.id as number).subscribe({
+      next: (content) => {
+        this.content = content;
+        this.router.navigate(['/content-request-list']);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  private _getContent(id: number): void {
     this.contentService.getContent(Number(id))
       .pipe(map((content) => {
         const mainMediaIndex = content.media.findIndex((media) => ['image', 'video'].includes(media.type.slug));
@@ -65,21 +85,6 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
       const token = jwt_decode(this.authService.getToken()) as any;
       this.email_me = token.email
     }
-  }
-
-  validateContent() {
-    this.contentService.validateContent(this.content?.id as number).subscribe({
-      next: (content) => {
-        this.content = content;
-        this.router.navigate(['/content-request-list']);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
   }
 
   rejectContent() {
@@ -146,6 +151,25 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
       return 'Pro'
     } else {
       return 'Client'
+    }
+  }
+
+  public addLike(): void {
+    if(this.content != null){
+      const likeUser = this.content.likes.some((like) => like.email === this.email_me)
+      if(!likeUser){
+        document.getElementById('goutte')?.classList.add('goutte-animation')
+        setTimeout(() => {
+          document.getElementById('goutte')?.classList.add('goutte-animation-out')
+        }, 400)
+        setTimeout(() => {
+          document.getElementById('goutte')?.classList.remove('goutte-animation')
+          document.getElementById('goutte')?.classList.remove('goutte-animation-out')
+        }, 400)
+        this.contentService.likeContent(this.content.id as number).subscribe((content) => {
+          this.content = content
+        })
+      }
     }
   }
 

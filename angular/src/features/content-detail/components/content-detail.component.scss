@@ -255,3 +255,13 @@
 .action-button {
   width: 47%;
 }
+
+.goutte-animation {
+  transition: transform 0.2s ease;
+  transform: scale(1.5);
+}
+
+.goutte-animation-out {
+  transition: transform 0.2s ease;
+  transform: scale(1);
+}

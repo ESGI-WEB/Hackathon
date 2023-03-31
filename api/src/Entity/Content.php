@@ -153,6 +153,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ],
     normalizationContext: ['groups' => ['read:content']],
+    order: ['id' => 'ASC']
 )]
 class Content
 {

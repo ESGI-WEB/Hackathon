@@ -49,4 +49,12 @@ export class ContentService {
   rejectContent(id: number): Observable<Content> {
     return this.http.post<Content>(`https://localhost/contents/${id}/reject`, {}, {});
   }
+
+  likeContent(id: number): Observable<Content> {
+    return this.http.post<Content>(`https://localhost/contents/${id}/like`, {},  {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    });
+  }
 }
