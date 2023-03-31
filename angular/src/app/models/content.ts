@@ -5,7 +5,7 @@ export interface Content {
   id: number;
   name: string;
   description: string;
-  status: 'pending' | 'validated' | 'refused';
+  status: 'pending' | 'validated' | 'rejected';
   media: Media[];
   likes: string[];
   opinions: string[];
@@ -16,7 +16,7 @@ export interface Content {
 export interface PostContent {
   name: string;
   description: string;
-  status: 'pending' | 'validated' | 'refused';
+  status: 'pending' | 'validated' | 'rejected';
   author: string;
   themes: string[];
 }

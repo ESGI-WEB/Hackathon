@@ -16,54 +16,45 @@ class ThemeFixtures extends Fixture  implements DependentFixtureInterface
     {
         $faker = Factory::create();
         $users = $manager->getRepository(User::class)->findAll();
-        $contents = $manager->getRepository(Content::class)->findAll();
 
         $theme = (new Theme())
             ->setName('Remboursement')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Naissance')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Décès')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Accident domestique')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Accident du travail')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Psychologie')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Arrêt maladie')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $theme = (new Theme())
             ->setName('Bien-être')
-            ->addTargetedUser($faker->randomElement($users))
-            ->addContent($faker->randomElement($contents));
+            ->addTargetedUser($faker->randomElement($users));
         $manager->persist($theme);
 
         $manager->flush();
@@ -73,7 +64,6 @@ class ThemeFixtures extends Fixture  implements DependentFixtureInterface
     {
         return array(
             UserFixtures::class,
-            ContentFixtures::class,
         );
     }
 }
