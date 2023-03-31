@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
             deserialize: false,
-            name: 'createContent',
+            name: 'createOpinion',
         ),
         new Put(),
         new Delete(),

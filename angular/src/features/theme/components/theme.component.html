@@ -33,16 +33,17 @@
     <div *ngIf="!loading" class="loader-theme">
       <div class="section-card">
         <div *ngFor="let content of contents" class="card card-articles mat-elevation-z1" [routerLink]="['/content', content.id]">
-          <div class="image-card">
-            <img src="https://img.20mn.fr/xaXGIhosRzqELLhafBG-1Sk/1200x768_plusieurs-professionnels-de-sante-racontent-qu-ils-ont-a-de-nombreuses-reprises-etaient-filmes-ou-enregistres-a-leur-insu-par-des-patients-en-pleine-consultation" alt="image">
-          </div>
+          <app-card-image [content]="content"></app-card-image>
           <div class="content-card">
             <h3>{{content.name}}</h3>
             <p>{{content.description}}</p>
             <div class="section-chips">
               <mat-chip-set>
-                <mat-chip *ngFor="let theme of content.themes">
-                  #{{theme.name}}
+                <mat-chip>
+                  #{{content.themes[0].name}}
+                </mat-chip>
+                <mat-chip *ngIf="(content.themes?.length || 0) > 1">
+                  +{{content.themes.length - 1}}
                 </mat-chip>
               </mat-chip-set>
               <div class="section-commentaire-goutte">

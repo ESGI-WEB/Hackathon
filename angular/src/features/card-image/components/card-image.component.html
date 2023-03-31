@@ -1,0 +1,12 @@
+<div class="image-card">
+  <ng-container [ngSwitch]="mainMedia.type.slug">
+    <ng-container *ngSwitchCase="'image'" >
+      <img [src]="mainMedia.url" alt="{{mainMedia.name}}">
+    </ng-container>
+    <ng-container *ngSwitchCase="'video'" >
+      <video>
+        <source [src]="mainMedia.url">
+      </video>
+    </ng-container>
+  </ng-container>
+</div>

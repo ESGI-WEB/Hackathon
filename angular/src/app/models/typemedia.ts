@@ -1,7 +1,7 @@
 export interface Typemedia {
   name: string;
-  extension: string[];
-  media: string[];
+  extension?: string[];
+  media?: string[];
   slug: string;
 }
 export function mapMediaToIcon(type: Typemedia) {

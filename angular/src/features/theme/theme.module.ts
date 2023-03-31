@@ -12,23 +12,25 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {CardImageModule} from "../card-image/card-image.module";
 
 @NgModule({
   declarations: [
     ThemeComponent,
   ],
-  imports: [
-    ThemeRoutingModule,
-    MatTabsModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatProgressSpinnerModule
-  ]
+    imports: [
+        ThemeRoutingModule,
+        MatTabsModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule,
+        CardImageModule
+    ]
 })
 export class ThemeModule { }

@@ -31,7 +31,7 @@ class TypeMedia
     private Collection $media;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['read:content'])]
+    #[Groups(['read:content', 'media_object:read'])]
     private ?string $slug = null;
 
     public function __construct()
