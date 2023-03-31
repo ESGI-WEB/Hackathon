@@ -37,6 +37,7 @@ export class UploadComponent implements OnInit {
   public editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
+    sanitize: false,
     translate: 'yes',
     minHeight: '10rem',
     placeholder: 'Enter text here...',
