@@ -1,0 +1,73 @@
+<article class="content-detail">
+  <section *ngIf="loading" class="centered">
+    <mat-spinner></mat-spinner>
+  </section>
+  <section *ngIf="!loading && !content" class="centered">
+    <p>Oups, une erreur est survenue :(</p>
+  </section>
+  <section *ngIf="!loading && content">
+    <div class="main-content">
+      <div class="main-media" *ngIf="mainMedia">
+        <ng-container *ngTemplateOutlet="mediaTemplate; context: {media: mainMedia};"></ng-container>
+      </div>
+
+      <div class="content">
+        <h1>{{ content.name }}</h1>
+        <p>{{ content.description }}</p>
+        <ng-container *ngIf="content.likes.length || content.opinions.length">
+          <mat-divider></mat-divider>
+          <div class="statistics">
+            <div *ngIf="content.likes.length > 0" class="stat-icon">
+              <img src="assets/images/goutte.png" alt="goutte">
+              <span>{{content.likes.length}}</span>
+            </div>
+            <div *ngIf="content.opinions.length > 0" class="stat-icon">
+              <img src="assets/images/commentaire.png" alt="commentaire" class="commentary-icon">
+              <span>{{content.opinions.length}}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="medias">
+          <div *ngFor="let media of content.media" class="media">
+            <ng-container *ngTemplateOutlet="mediaTemplate; context: {media: media};"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+
+<ng-template #mediaTemplate let-media="media">
+  <ng-container [ngSwitch]="media.type.slug">
+    <ng-container *ngSwitchCase="'image'" >
+      <img [src]="media.url" alt="{{media.name}}">
+      <small class="media-description"><strong>{{media.name}}</strong> : {{media.description}}</small>
+    </ng-container>
+    <ng-container *ngSwitchCase="'video'" >
+      <video controls>
+        <source [src]="media.url">
+      </video>
+      <small class="media-description"><strong>{{media.name}}</strong> : {{media.description}}</small>
+    </ng-container>
+    <ng-container *ngSwitchCase="'podcast'" >
+      <div>
+        <audio controls>
+          <source [src]="media.url">
+        </audio>
+      </div>
+      <small class="media-description"><strong>{{media.name}}</strong> : {{media.description}}</small>
+    </ng-container>
+
+    <a *ngSwitchCase="'file'" [href]="media.url" download target="_blank" class="download-button">
+      {{ media.name }}
+      <button mat-mini-fab color="primary">
+        <mat-icon>download</mat-icon>
+      </button>
+    </a>
+    <div *ngSwitchCase="'text'">
+      <h2>{{media.name}}</h2>
+      <div [innerHTML]="media.description"></div>
+    </div>
+  </ng-container>
+</ng-template>

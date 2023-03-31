@@ -22,4 +22,8 @@ export class ContentService {
       })
     );
   }
+
+  getContent(id: number): Observable<Content> {
+    return this.http.get<Content>(`https://localhost/contents/${id}`);
+  }
 }
