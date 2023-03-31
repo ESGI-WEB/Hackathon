@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {first} from "rxjs/operators";
 import { AuthService} from "../../../app/services/auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthService,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -37,22 +39,28 @@ export class LoginComponent {
   // convenience getter for easy access to form fields
   get f():any { return this.loginForm.controls; }
 
+  openSnackBar(message:string) {
+    this.snackBar.open(message, "Ok", {
+      duration: 5000,
+    });
+  }
+
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
-
     this.loading = true;
     this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
-        });
-
+        },
+      error => {
+          this.openSnackBar("Les identifiants sont incorrects");
+      }
+        );
+    this.loginForm.reset();
   }
 
 
