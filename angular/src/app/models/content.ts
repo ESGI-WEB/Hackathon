@@ -1,5 +1,6 @@
 import {Theme} from "./theme";
 import {Media} from "./media";
+import {User} from "./user";
 
 export interface Content {
   id: number;
@@ -9,7 +10,7 @@ export interface Content {
   media: Media[];
   likes: string[];
   opinions: string[];
-  author: string;
+  author: User;
   themes: Theme[];
 }
 

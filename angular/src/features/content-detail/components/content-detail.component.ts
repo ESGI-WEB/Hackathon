@@ -43,4 +43,9 @@ export class ContentDetailComponent implements OnInit {
         }
       });
   }
+
+  public isClient(roles: Array<string>): boolean {
+    console.log(this.content)
+    return roles.includes('ROLE_MODERATOR')
+  }
 }

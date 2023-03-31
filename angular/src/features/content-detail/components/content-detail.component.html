@@ -36,6 +36,26 @@
       </div>
     </div>
   </section>
+  <section>
+    <div class="content">
+      <h2>Commentaire</h2>
+      <div class="comment-section" *ngIf="content">
+        <div *ngFor="let opinion of content.opinions" class="message message-me">
+          <div class="user">
+            <div class="name">
+              <div class="photo">{{content.author}}</div>
+              <div class="firstname">MORIN Laurie :</div>
+            </div>
+            <div *ngIf="isClient(content.author.roles)" class="badge badge-me">Pro</div>
+            <div *ngIf="!isClient(content.author.roles)" class="badge badge-me">Client</div>
+          </div>
+          <div class="comment">
+            <p>Non je suis pas d'accord, blabla c'est pas bien ça va pas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </article>
 
 <ng-template #mediaTemplate let-media="media">
