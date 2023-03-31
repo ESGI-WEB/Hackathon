@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay, filter } from 'rxjs/operators';
@@ -16,11 +16,18 @@ export class MainComponent implements AfterViewInit {
 
   @ViewChild(MatSidenav)
   public sidenav!: MatSidenav;
+  public token: any;
 
-  constructor(private observer: BreakpointObserver, private router: Router, private authService : AuthService) {}
+  constructor(
+    private observer: BreakpointObserver,
+    private router: Router,
+    private authService : AuthService,
+    private chref: ChangeDetectorRef
+  ) {}
 
   logout() {
     this.authService.logout();
+    this.token = '';
     this.router.navigate(['/login']);
   }
   ngAfterViewInit() {
@@ -46,6 +53,9 @@ export class MainComponent implements AfterViewInit {
         if (this.sidenav.mode === 'over') {
           this.sidenav.close();
         }
+        this.token = this.authService.getDecodeToken();
       });
+
+    this.token = this.authService.getDecodeToken();
   }
 }

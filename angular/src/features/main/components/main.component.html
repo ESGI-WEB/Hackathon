@@ -30,7 +30,13 @@
           <mat-icon>add_circle_outline</mat-icon>
           <span>Ajouter un article</span>
         </button>
-        <button mat-button class="menu-button" (click)="sidenav.toggle()"  routerLink="/content-request-list">
+        <button
+          mat-button
+          class="menu-button"
+          (click)="sidenav.toggle()"
+          routerLink="/content-request-list"
+          *ngIf="token && token.roles.includes('ROLE_MODERATOR')"
+        >
           <mat-icon>spellcheck</mat-icon>
           <span>Contenu à valider</span>
         </button>
