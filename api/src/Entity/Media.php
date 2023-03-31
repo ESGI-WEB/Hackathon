@@ -93,6 +93,9 @@ class Media
     #[Groups(['read:content'])]
     private ?string $path = null;
 
+    #[Groups(['read:content'])]
+    public ?string $url = null;
+
     #[ORM\ManyToOne(inversedBy: 'media')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Content $content = null;
