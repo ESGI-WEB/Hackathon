@@ -54,6 +54,7 @@
         <angular-editor
           [formControl]="asFormControl(mediaControl.get('description'))"
           [config]="editorConfig"
+          [class]="'custom-editor'"
         ></angular-editor>
         <mat-error *ngIf="mediaControl.get('description')?.touched || mediaControl.get('description')?.value">
           <ng-container *ngTemplateOutlet="errorDisplay; context: {errors: mediaControl.get('description')?.errors}"></ng-container>
