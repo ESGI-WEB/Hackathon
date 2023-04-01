@@ -57,4 +57,12 @@ export class ContentService {
       }
     });
   }
+
+  unlikeContent(id: number): Observable<Content> {
+    return this.http.post<Content>(`https://localhost/contents/${id}/unlike`, {},  {
+      headers: {
+        'Authorization': 'Bearer ' + this.authService.getToken()
+      }
+    });
+  }
 }

@@ -157,19 +157,29 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  public addLike(): void {
+  public isArleadyLiked(): boolean {
+    if(this.content != null) {
+      return this.content.likes.some((like: any) => like.email === this.email_me)
+    }
+    return false;
+  }
+
+  public addOrUnlike(): void {
     if(this.content != null){
-      const likeUser = this.content.likes.some((like: any) => like.email === this.email_me)
-      if(!likeUser){
-        document.getElementById('goutte')?.classList.add('goutte-animation')
-        setTimeout(() => {
-          document.getElementById('goutte')?.classList.add('goutte-animation-out')
-        }, 400)
-        setTimeout(() => {
-          document.getElementById('goutte')?.classList.remove('goutte-animation')
-          document.getElementById('goutte')?.classList.remove('goutte-animation-out')
-        }, 400)
+      document.getElementById('goutte')?.classList.add('goutte-animation')
+      setTimeout(() => {
+        document.getElementById('goutte')?.classList.add('goutte-animation-out')
+      }, 400)
+      setTimeout(() => {
+        document.getElementById('goutte')?.classList.remove('goutte-animation')
+        document.getElementById('goutte')?.classList.remove('goutte-animation-out')
+      }, 400)
+      if(!this.isArleadyLiked()){
         this.contentService.likeContent(this.content.id as number).subscribe((content) => {
+          this.content = content
+        })
+      } else {
+        this.contentService.unlikeContent(this.content.id as number).subscribe((content) => {
           this.content = content
         })
       }
