@@ -35,7 +35,7 @@
           class="menu-button"
           (click)="sidenav.toggle()"
           routerLink="/content-request-list"
-          *ngIf="token && token.roles.includes('ROLE_MODERATOR')"
+          *ngIf="token && isModerator(token.roles)"
         >
           <mat-icon>spellcheck</mat-icon>
           <span>Contenu à valider</span>

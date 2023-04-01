@@ -10,6 +10,7 @@ import {Opinion, PostOpinion} from "../../../app/models/opinion";
 import {OpinionService} from "../../../app/services/opinion.service";
 import {AuthService} from "../../../app/services/auth.service";
 import jwt_decode from 'jwt-decode';
+import {hasModeratorRole} from "../../../app/models/user";
 
 @Component({
   selector: 'app-main',
@@ -20,8 +21,8 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
 
   public loading = true;
   public submitting = false;
-  public content: Content|null = null;
-  public mainMedia: Media|null = null;
+  public content: Content | null = null;
+  public mainMedia: Media | null = null;
   public email_me: string;
   public commentControl: FormControl;
   public role: Array<string>;
@@ -41,7 +42,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if(id != null){
+    if (id != null) {
       this._getContent(Number(id))
     }
   }
@@ -150,7 +151,7 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   }
 
   public getRole(roles: Array<string>): string {
-    if(roles.includes('ROLE_MODERATOR')) {
+    if (hasModeratorRole(roles)) {
       return 'Pro'
     } else {
       return 'Client'
@@ -158,14 +159,14 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
   }
 
   public isArleadyLiked(): boolean {
-    if(this.content != null) {
+    if (this.content != null) {
       return this.content.likes.some((like: any) => like.email === this.email_me)
     }
     return false;
   }
 
   public addOrUnlike(): void {
-    if(this.content != null){
+    if (this.content != null) {
       document.getElementById('goutte')?.classList.add('goutte-animation')
       setTimeout(() => {
         document.getElementById('goutte')?.classList.add('goutte-animation-out')
@@ -174,19 +175,27 @@ export class ContentDetailComponent implements OnInit, OnDestroy {
         document.getElementById('goutte')?.classList.remove('goutte-animation')
         document.getElementById('goutte')?.classList.remove('goutte-animation-out')
       }, 400)
-      if(!this.isArleadyLiked()){
-        this.contentService.likeContent(this.content.id as number).subscribe((content) => {
-          this.content = content
-        })
+      let promise;
+      if (!this.isArleadyLiked()) {
+        promise = this.contentService.likeContent(Number(this.content.id));
       } else {
-        this.contentService.unlikeContent(this.content.id as number).subscribe((content) => {
-          this.content = content
-        })
+        promise = this.contentService.unlikeContent(Number(this.content.id));
       }
+      promise.subscribe({
+        next: (content) => {
+          if (this.content) {
+            this.content.likes = content.likes;
+          }
+        }
+      })
     }
   }
 
   goToLogin() {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    this.router.navigate(['/login'], {queryParams: {returnUrl: this.router.url}});
+  }
+
+  hasModeratorRole(roles: string[]): boolean {
+    return hasModeratorRole(roles);
   }
 }

@@ -5,6 +5,7 @@ import { delay, filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {AuthService} from "../../../app/services/auth.service";
+import {hasModeratorRole} from "../../../app/models/user";
 
 @UntilDestroy()
 @Component({
@@ -62,6 +63,10 @@ export class MainComponent implements AfterViewInit {
       });
 
     this.token = this.authService.getDecodeToken();
+  }
+
+  isModerator(roles: string[]): boolean {
+    return hasModeratorRole(roles);
   }
 }
 

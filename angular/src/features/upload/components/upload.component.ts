@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -22,13 +22,14 @@ import {Media, PostMedia} from "../../../app/models/media";
 import {ContentService} from "../../../app/services/content.service";
 import {MediaService} from "../../../app/services/media.service";
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-main',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent implements OnInit, OnDestroy {
   public form?: FormGroup;
   public loading = true;
   public submitting = false;
@@ -60,6 +61,7 @@ export class UploadComponent implements OnInit {
     private mediaService: MediaService,
     private dialog: MatDialog,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -121,7 +123,11 @@ export class UploadComponent implements OnInit {
           return this.submitMediasToContent(medias, content);
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
+          this.snackBar.open('Une erreur est survenue', '', {
+            duration: 5000,
+          })
+          this.submitting = false;
         }
       });
   }
@@ -144,7 +150,14 @@ export class UploadComponent implements OnInit {
     zip(...subMedias).subscribe({
       next: (medias: Media[]) => {
         this.router.navigate(['/content', content.id]);
-      }
+      },
+      error: (error) => {
+        console.error(error);
+        this.snackBar.open('Une erreur est survenue', '', {
+          duration: 5000,
+        })
+        this.submitting = false;
+      },
     });
   }
 
@@ -195,6 +208,10 @@ export class UploadComponent implements OnInit {
 
   asFormArray(control: any): FormArray {
     return control as FormArray;
+  }
+
+  ngOnDestroy() {
+    this.snackBar.dismiss();
   }
 }
 

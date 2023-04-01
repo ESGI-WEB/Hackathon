@@ -12,6 +12,7 @@ import {AngularEditorModule} from "@kolkov/angular-editor";
 import {UploadMenuComponent} from "./components/upload-menu.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     AngularEditorModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ]
 })
 export class UploadModule { }

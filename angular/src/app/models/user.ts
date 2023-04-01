@@ -8,3 +8,7 @@ export interface User {
   opinions: string[];
   token : string;
 }
+
+export function hasModeratorRole(roles: string[]): boolean {
+  return roles.includes('ROLE_ADMIN') || roles.includes('ROLE_MODERATOR');
+}

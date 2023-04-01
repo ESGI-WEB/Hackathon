@@ -62,10 +62,10 @@
       </div>
     </div>
   </section>
-  <section *ngIf="content && content.status === 'validated'">
+  <section *ngIf="content && content.status === 'validated' && content.opinions.length > 0">
     <div class="content">
-      <h2>Commentaire</h2>
-      <div class="comment-section" *ngIf="content">
+      <h2>Commentaires</h2>
+      <div class="comment-section">
         <div *ngFor="let opinion of content.opinions" [ngClass]="email_me === opinion.author.email ? 'message-me' : 'message-other'" class="message">
           <div class="user">
             <div class="name">
@@ -83,7 +83,7 @@
   </section>
 </article>
 
-<div *ngIf="!loading && content && role.includes('ROLE_MODERATOR')" class="action-buttons">
+<div *ngIf="!loading && content && content.status === 'pending' && hasModeratorRole(role)" class="action-buttons">
   <button
     mat-raised-button
     color="primary"
@@ -123,12 +123,15 @@
       <small class="media-description"><strong>{{media.name}}</strong> : {{media.description}}</small>
     </ng-container>
 
-    <a *ngSwitchCase="'file'" [href]="media.url" download target="_blank" class="download-button">
-      {{ media.name }}
-      <button mat-mini-fab color="primary">
-        <mat-icon>download</mat-icon>
-      </button>
-    </a>
+    <ng-container *ngSwitchCase="'file'" >
+      <a [href]="media.url" download target="_blank" class="download-button">
+        {{ media.name }}
+        <button mat-mini-fab color="primary">
+          <mat-icon>download</mat-icon>
+        </button>
+      </a>
+      <small class="media-description">{{media.description}}</small>
+    </ng-container>
     <div *ngSwitchCase="'text'">
       <h2>{{media.name}}</h2>
       <div [innerHTML]="media.description | safeHtml"></div>
